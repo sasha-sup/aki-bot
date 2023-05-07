@@ -1,0 +1,9 @@
+version: '3.6'
+services:
+  aki_bot:
+    restart: always
+    build: .
+    container_name: "aki_bot"
+    command: sh -c "python3 main.py"
+    volumes:
+      - /home/ubuntu/pic:/pic:rw
