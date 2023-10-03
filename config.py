@@ -21,10 +21,19 @@ For any issues or feedback\, reach out\:
 📬 [sasha\-sup](https\:\/\/sasha\-sup\.github\.io/)
 """
 
+HELP_MESSAGE = """
+_Commands_\:
+\/start _Enable the bot_
+\/help _Get this message_
+\/stop _Disable notifications_
+\/notifyon _Enable notifications_
+"""
+
+
 TOKEN = os.getenv('TOKEN')
 ADMIN_ID = os.getenv('ADMIN_ID')
 DB_HOST = os.getenv('DB_HOST')
-DP_PORT = os.getenv('DB_PORT')
+DB_PORT = os.getenv('DB_PORT')
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
 DB_PASS = os.getenv('DB_PASS')

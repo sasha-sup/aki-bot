@@ -1,5 +1,5 @@
-import config
 import asyncpg
+import config
 import logging
 
 async def create_db_connection():
@@ -29,9 +29,71 @@ async def create_tables_if_exists():
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 user_id BIGINT UNIQUE NOT NULL,
-                send_notifications BOOLEAN DEFAULT TRUE);
+                send_notifications BOOLEAN DEFAULT TRUE,
+                pet_clicks INT DEFAULT 0,
+                total_pet_clicks INT DEFAULT 0,
+                last_pet_time timestamp);
             """)
-    except Exception as e:
+    except asyncpg.PostgresError as e:
         logging.error(f"Error creating table: {e}")
     finally:
-        await close_db_connection(connection)
+        await connection.close()
+
+async def ensure_user_exists(user_id):
+    connection = await create_db_connection()
+    try:
+        select_query = "SELECT * FROM users WHERE user_id = $1"
+        user = await connection.fetchrow(select_query, user_id)
+        if user is None:
+            insert_query = "INSERT INTO users (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING"
+            await connection.execute(insert_query, user_id)
+            logging.info(f"Added new user with user_id {user_id}")
+    except asyncpg.UniqueViolationError:
+        logging.warning(f"User with user_id {user_id} already exists.")
+    except asyncpg.PostgresError as e:
+        logging.error(f"Error adding user: {e}")
+    finally:
+        await connection.close()
+
+async def get_user(user_id):
+    try:
+        connection = await create_db_connection()
+        query = "SELECT * FROM users WHERE user_id = $1"
+        result = await connection.fetchrow(query, user_id)
+        return result
+    except asyncpg.PostgresError as e:
+        logging.error(f"Error get user: {e}")
+    finally:
+        await connection.close()
+
+async def get_all_user_ids():
+    try:
+        connection = await create_db_connection()
+        query = "SELECT user_id FROM users"
+        result = await connection.fetch(query)
+        user_ids = [record['user_id'] for record in result]
+        return user_ids
+    except asyncpg.PostgresError as e:
+        logging.error(f"Error get all user: {e}")
+    finally:
+        await connection.close()
+
+async def update_notification_settings(user_id, send_notifications):
+    connection = await create_db_connection()
+    try:
+        query = "UPDATE users SET send_notifications = $2 WHERE user_id = $1"
+        await connection.execute(query, user_id, send_notifications)
+    except asyncpg.PostgresError as e:
+        logging.error(f"Error updating notification settings: {e}")
+    finally:
+        await connection.close()
+
+async def increment_click_count(user_id):
+    connection = await create_db_connection()
+    try:
+        update_query = "UPDATE users SET total_pet_clicks = total_pet_clicks + 1 WHERE user_id = $1"
+        await connection.execute(update_query, user_id)
+    except asyncpg.PostgresError as e:
+        logging.error(f"Error incrementing click count: {e}")
+    finally:
+        await connection.close()
