@@ -1,6 +1,9 @@
-import asyncpg
-import config
 import logging
+
+import asyncpg
+
+import config
+
 
 async def create_db_connection():
     db_config = {

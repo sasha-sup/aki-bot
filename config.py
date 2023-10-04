@@ -1,8 +1,8 @@
 import os
 
 # Time range for message
-MIN_TIME = 1 #2
-MAX_TIME = 2 #24
+MIN_TIME = 2
+MAX_TIME = 24
 
 # Welcome message
 WELCOME_MESSAGE = """

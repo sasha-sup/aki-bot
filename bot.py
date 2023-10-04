@@ -1,33 +1,37 @@
 import asyncio
-import config
-import db
 import logging
 import os
 import random
-from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from aiogram.types import KeyboardButton, ParseMode, ReplyKeyboardMarkup
-from aiogram.utils import executor
 from datetime import datetime, timedelta
+from enum import Enumшы
+
+from aiogram import Bot, Dispatcher, types
+from aiogram.types import KeyboardButton, Message, ReplyKeyboardMarkup
+from aiogram.utils.markdown import hbold
+
+import config
+import db
 
 API_TOKEN = config.TOKEN
 
 # Init bot
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
-dp.middleware.setup(LoggingMiddleware())
 logging.basicConfig(level=logging.INFO)
 
 # Get content
 async def send_random_file(user_id):
     try:
         picture_files = [os.path.join(config.PIC_PATH, filename) for filename in os.listdir(config.PIC_PATH)]
-        video_files = [os.path.join(config.VIDEO_DIR, filename) for filename in os.listdir(config.VIDEO_DIR)]
-        chosen_dir = random.choice([config.PIC_PATH, config.VIDEO_DIR])
+        video_files = [os.path.join(config.VIDEO_PATH, filename) for filename in os.listdir(config.VIDEO_PATH)]
+        chosen_dir = random.choice([config.PIC_PATH, config.VIDEO_PATH])
         chosen_file = random.choice(os.listdir(chosen_dir))
         file_path = os.path.join(chosen_dir, chosen_file)
-        with open(file_path, 'rb') as file:
-            await bot.send_document(user_id, file)
+
+        if file_path in picture_files:
+            await bot.send_photo(user_id, types.InputFile(file_path))
+        elif file_path in video_files:
+            await bot.send_video(user_id, types.InputFile(file_path))
     except Exception as e:
         logging.error(f"Error send_random_file: {e}")
 
@@ -41,7 +45,7 @@ async def start(message: types.Message):
         button = KeyboardButton("🐕 Pet Me")
         keyboard.add(button)
         logging.info(f"User {message.from_user.username} started the bot.")
-        await message.answer(config.WELCOME_MESSAGE, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True, reply_markup=keyboard)
+        await message.answer(config.WELCOME_MESSAGE, parse_mode=ParseMode.Markdown, disable_web_page_preview=True, reply_markup=keyboard)
         await send_random_file(user_id)
     except Exception as e:
         logging.error(f"Error start: {e}")
@@ -50,7 +54,7 @@ async def start(message: types.Message):
 @dp.message_handler(commands=['help'])
 async def help_command(message: types.Message):
     try:
-        await message.reply(config.HELP_MESSAGE, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard)
+        await message.reply(config.HELP_MESSAGE, parse_mode=ParseMode.Markdown, reply_markup=keyboard)
     except Exception as e:
         logging.error(f"Error help: {e}")
 
@@ -81,11 +85,11 @@ async def send_messages():
     try:
         while True:
             users = await db.get_all_user_ids()
-            interval = random.randint(config.MIN_TIME, config.MAX_TIME)
-            for user in users:
-                user_id = user['user_id']
+            interval = timedelta(seconds=(random.randint(config.MIN_TIME, config.MAX_TIME))) # Replace seconds --> hours
+            for user_id in users:
                 await send_random_file(user_id)
-                await asyncio.sleep(10) # delay
+                logging.info(f"Sent a message to user {user_id}")
+                await asyncio.sleep(10) # delay in seconds
             await asyncio.sleep(interval.total_seconds())
     except Exception as e:
         logging.error(f"Error send_messages: {e}")
@@ -111,10 +115,10 @@ async def handle_pet_me(message: types.Message):
     except Exception as e:
         logging.error(f"Error petme: {e}")
 
-async def main():
-    loop = asyncio.get_event_loop()
-    await send_messages()
-    await executor.start_polling(dp, skip_updates=True)
+async def start_bot():
+    await asyncio.gather(
+        dp.start_polling(skip_updates=True),
+        send_messages())
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(start_bot())
