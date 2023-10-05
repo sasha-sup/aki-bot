@@ -10,5 +10,4 @@ services:
       - .env
     volumes:
       - /opt/akibot/content:/app/content:rw
-      - /opt/akibot/log:/app/log:rw
-
+      - /var/log/akibot:/app/log:rw
