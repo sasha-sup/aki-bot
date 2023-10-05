@@ -46,7 +46,7 @@ async def ensure_user_exists(user_id):
         select_query = "SELECT * FROM users WHERE user_id = $1"
         user = await connection.fetchrow(select_query, user_id)
         if user is None:
-            insert_query = "INSERT INTO users (user_id, send_notifications) VALUES ($1, TRUE) ON CONFLICT (user_id) DO NOTHING"
+            insert_query = "INSERT INTO users (user_id, send_notifications) VALUES ($1, TRUE)"
             await connection.execute(insert_query, user_id)
             logger.info(f"Added new user with user_id {user_id}")
     except asyncpg.UniqueViolationError:
