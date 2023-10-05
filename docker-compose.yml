@@ -9,8 +9,6 @@ services:
     env_file:
       - .env
     volumes:
-      - /home/sasha/Pictures/akibot:/app/content:rw
-      - ./log:/app/log:rw
-#      - /opt/akibot/content:/app/content:rw
-#      - /opt/akibot/log:/app/log:rw
+      - /opt/akibot/content:/app/content:rw
+      - /opt/akibot/log:/app/log:rw
 

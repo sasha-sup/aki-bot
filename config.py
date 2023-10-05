@@ -1,3 +1,4 @@
+import logging
 import os
 
 # Time range for message
@@ -39,6 +40,16 @@ DB_USER = os.getenv('DB_USER')
 DB_PASS = os.getenv('DB_PASS')
 
 # Path
-BASE_DIR = os.path.dirname(__file__)
-PIC_PATH = os.path.join(BASE_DIR, 'content', 'pic')
-VIDEO_PATH = os.path.join(BASE_DIR, 'content', 'video')
+LOG_PATH = "/app/log"
+PIC_PATH = "/app/content/pic"
+VIDEO_PATH = "/app/content/video"
+
+# log
+log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+logging.basicConfig(
+    format=log_format,
+    level=logging.INFO,
+    filename="/app/log/main.log")
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
+logger = logging.getLogger(__name__)
