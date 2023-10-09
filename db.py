@@ -43,7 +43,7 @@ async def create_tables_if_exists():
 async def ensure_user_exists(user_id):
     connection = await create_db_connection()
     try:
-        select_query = "SELECT * FROM users WHERE user_id = $1"
+        select_query = "SELECT user_id FROM users WHERE user_id = $1"
         user = await connection.fetchrow(select_query, user_id)
         if user is None:
             insert_query = "INSERT INTO users (user_id, send_notifications) VALUES ($1, TRUE)"
