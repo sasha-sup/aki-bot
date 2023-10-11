@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: "notifier"
+    container_name: "aki-bot"
     restart: always
     env_file:
       - .env
