@@ -89,10 +89,22 @@ async def update_notification_settings(user_id, send_notifications):
     finally:
         await connection.close()
 
+# total pet click
 async def increment_click_count(user_id):
     connection = await create_db_connection()
     try:
         update_query = "UPDATE users SET total_pet_clicks = total_pet_clicks + 1 WHERE user_id = $1"
+        await connection.execute(update_query, user_id)
+    except asyncpg.PostgresError as e:
+        logger.error(f"Error incrementing click count: {e}")
+    finally:
+        await connection.close()
+    
+# total bio click
+async def increment_click_count1(user_id):
+    connection = await create_db_connection()
+    try:
+        update_query = "UPDATE users SET bio_clicks = bio_clicks + 1 WHERE user_id = $1"
         await connection.execute(update_query, user_id)
     except asyncpg.PostgresError as e:
         logger.error(f"Error incrementing click count: {e}")

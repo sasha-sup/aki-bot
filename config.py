@@ -5,6 +5,27 @@ import os
 MIN_TIME = 2
 MAX_TIME = 24
 
+BIO_MESSAGE = """
+
+\#\# Basic Information
+\- *Name\:* Akihiro
+\- *Breed\:* Shiba
+\- *Gender\:* Female
+\- *Date of Birth\:* 29\.08\.2021
+
+\#\# Physical Characteristics
+\- *Color\:* Red
+\- *Size\:* Small
+\- *Weight\:*  7 kg
+
+\#\# Health
+\- *Vaccination\:* Yes
+\- *Microchipping\:* Yes
+
+\#\# Owner
+ 📬 [sasha\-sup](https\:\/\/sasha\-sup\.github\.io/)
+"""
+
 # Welcome message
 WELCOME_MESSAGE = """
 🦊*Smotri Kakaja Lisi4ka*🦊
@@ -41,6 +62,7 @@ DB_PASS = os.getenv('DB_PASS')
 
 # Path
 LOG_PATH = "/app/log"
+BIO_PATH = "/app/content/pic/bio."
 PIC_PATH = "/app/content/pic"
 VIDEO_PATH = "/app/content/video"
 

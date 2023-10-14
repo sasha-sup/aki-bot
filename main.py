@@ -26,7 +26,7 @@ async def create_content_dirs():
 async def main():
     await create_content_dirs()
     await db.create_tables_if_exists()
-    await send_messages()
+#    await send_messages()
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

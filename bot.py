@@ -20,8 +20,13 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
 # button
-button = KeyboardButton("🐕 Pet Me")
-keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(button)
+petmebtn = KeyboardButton("🐕 Pet Me")
+button_bio = KeyboardButton("🪪 Bio")
+help_btn = KeyboardButton("🆘 Help")
+keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard.add(petmebtn)
+keyboard.add(button_bio)
+keyboard.add(help_btn)
 
 # Get content
 async def send_random_file(user_id):
@@ -104,7 +109,7 @@ async def handle_pet_me(message: types.Message):
         if user:
             current_time = datetime.now()
             last_request_time = user.get('last_pet_time')
-            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=60):
+            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count(user_id)
                 logger.info(f"User {user_id} requested content.")
@@ -116,10 +121,47 @@ async def handle_pet_me(message: types.Message):
     except Exception as e:
         logger.error(f"Error petme: {e}")
 
+# 🪪 Bio
+@dp.message_handler(lambda message: message.text == "🪪 Bio")
+async def handle_pet_me(message: types.Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if user:
+            current_time = datetime.now()
+            last_request_time = user.get('last_pet_time')
+            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+                await db.set_last_pet_time(user_id, current_time)
+                await db.increment_click_count1(user_id)
+                logger.info(f"User {user_id} requested bio.")
+                file_path = "/app/content/pic/aki-bio.png"
+                photo = types.InputFile(file_path)
+                message_text = config.BIO_MESSAGE
+                await bot.send_photo(user_id, photo=photo, caption=message_text, parse_mode="MarkdownV2")
+            else:
+                await message.answer("Please wait before requesting more content.")
+        else:
+            await message.answer("You are not registered. Use /start to begin.")
+    except Exception as e:
+        logger.error(f"Error petme: {e}")
+
+# help
+@dp.message_handler(lambda message: message.text == "🆘 Help")
+async def process_text(message: types.Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if not user:
+            logger.info(f"User {message.from_user.username} not registered. ")
+            await message.answer("You are not registered. Use /start to begin.")
+            return
+        await help_command(message)
+    except Exception as e:
+        logger.error(f"Error processing text: {e}")
+
 async def start_bot():
     await asyncio.gather(
-        dp.start_polling(skip_updates=True),
-        send_messages())
+        dp.start_polling(skip_updates=True))
 
 if __name__ == '__main__':
     asyncio.run(start_bot())
