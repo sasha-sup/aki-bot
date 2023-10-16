@@ -1,5 +1,3 @@
-#!/bin/bash
-
 scripts=(
     "0-sort-content.sh"
     "1-logo-on-pic.py"
@@ -7,12 +5,16 @@ scripts=(
     "3-video-resizer.sh"
 )
 
-
 for script in "${scripts[@]}"; do
     if [ -f "$script" ]; then
         echo "Running: $script"
-        bash "$script"
+        if [[ "$script" == *".py" ]]; then
+            python3 "$script"
+        else
+            bash "$script"
+        fi
+        echo "--------------------"
         echo "$script done"
-        # TODO: orig files cleaner
+        echo "--------------------"
     fi
 done

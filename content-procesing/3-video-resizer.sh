@@ -13,8 +13,7 @@ for video_file in "$INPUT_DIR"/*; do
         echo "Skipped file: $video_file (size already meets the condition)"
         continue
     fi
-    target_bitrate=$(python -c "print(int($max_file_size * 8 / ($duration * 1024)))")
+    target_bitrate=$(python3 -c "print(int($max_file_size * 8 / ($duration * 1024)))")
     ffmpeg -i "$video_file" -b:v "$target_bitrate"k -preset medium -vf "scale=1280:-1" "$output_file"
     new_size=$(stat --format=%s "$output_file")
-    # TODO: logs
 done

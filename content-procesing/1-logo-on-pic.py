@@ -6,6 +6,7 @@ from PIL import Image
 LOGO_PATH="/root/Yandex.Disk/content/logo/akibot-logo1.png"
 INPUT_DIR="/root/Yandex.Disk/content/pic"
 
+
 # TODO: logs
 
 def add_logo(directory, logo_path):
