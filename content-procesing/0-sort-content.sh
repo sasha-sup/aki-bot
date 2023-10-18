@@ -4,6 +4,13 @@ source_directory="/root/Yandex.Disk/content"
 image_directory="/root/Yandex.Disk/content/pic"
 video_directory="/root/Yandex.Disk/content/video"
 
+# Remove empty spaces in filename
+for file in $source_directory/*; do
+    new_name=$(echo "$file" | tr ' ' '_')
+    mv "$file" "$new_name"
+done
+
+
 find "$source_directory" -type f -iregex '.*\.\(jpg\|jpeg\|png\|gif\|bmp\|tiff\|ico\)' -exec bash -c '
     source_file="$0"
     target_directory="$1"

@@ -15,7 +15,8 @@ def rotate(directory):
             output_filename = f"rotate-{image_file}"
             output_path = os.path.join(directory, output_filename)
             image = Image.open(image_path)
-            rotated_image = image.transpose(Image.ROTATE_180)
+            angle = 180
+            rotated_image = image.rotate(angle, expand=True)
             rotated_image.save(output_path, "JPEG")
             print(f"Processed image: {image_file}")
             #os.remove(image_path)
