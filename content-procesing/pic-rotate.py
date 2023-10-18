@@ -1,8 +1,8 @@
 import os
 import random
 
-from PIL import Image
 import PIL
+from PIL import Image
 
 INPUT_DIR=""
 

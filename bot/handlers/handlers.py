@@ -1,15 +1,15 @@
 import asyncio
 from datetime import datetime, timedelta
 
+import db
+import message_templates.message as msg
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import FSInputFile, Message, ReplyKeyboardRemove
-
-import db
-import message_templates.message as msg
-from bot import get_random_file
 from config import logger, path_dict
 from keyboard.keyboard import main_kb
+
+from bot import get_random_file
 
 router = Router()
 
