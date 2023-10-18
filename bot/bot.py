@@ -15,6 +15,8 @@ from aiogram.utils.markdown import hbold
 from config import MAX_TIME, MIN_TIME, logger, path_dict
 from handlers import handlers
 
+bot = Bot(token=config.TOKEN)
+dp = Dispatcher()
 
 # Create required directories
 def create_content_dirs(path_dict):
@@ -89,8 +91,6 @@ async def cmd_bulk(message: Message):
 async def main():
     create_content_dirs(path_dict)
     await db.create_tables_if_exists()
-    bot = Bot(token=config.TOKEN)
-    dp = Dispatcher()
     dp.include_routers(handlers.router)
     await bot.delete_webhook(drop_pending_updates=True)
     send_messages_task = asyncio.create_task(send_messages(bot))
