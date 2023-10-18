@@ -1,0 +1,178 @@
+import asyncio
+from datetime import datetime, timedelta
+
+from aiogram import F, Router
+from aiogram.filters import Command
+from aiogram.types import FSInputFile, Message, ReplyKeyboardRemove
+
+import db
+import message_templates.message as msg
+from bot import get_random_file
+from config import logger, path_dict
+from keyboard.keyboard import main_kb
+
+router = Router()
+
+# /start
+@router.message(Command("start"))
+async def cmd_start(message: Message):
+    try:
+        user_id = message.from_user.id
+        username = message.from_user.username
+        await db.ensure_user_exists(user_id, username)
+        path = await get_random_file()
+        message_text = msg.WELCOME_MESSAGE
+        if "video" in path:
+            video = FSInputFile(path)
+            await message.answer_video(video=video, caption=message_text, parse_mode="MarkdownV2", disable_web_page_preview=True, reply_markup=main_kb())
+        elif "pic" in path:
+            pic = FSInputFile(path)
+            await message.answer_photo(photo=pic, caption=message_text, parse_mode="MarkdownV2", disable_web_page_preview=True, reply_markup=main_kb())
+        logger.info(f"User {username} started the bot.")
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error start: {e}")
+
+# /help
+@router.message(Command("help"))
+async def cmd_help(message: Message):
+    try:
+        await message.reply(msg.HELP_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error help: {e}")
+
+# /stop
+@router.message(Command("stop"))
+async def cmd_stop(message: Message):
+    try:
+        user_id = message.from_user.id
+        await db.update_notification_settings(user_id, send_notifications=False)
+        logger.info(f"User {message.from_user.username} has opted out of automatic notifications.")
+        await message.reply("You have cancelled notifications.\n Use /notifyon command to restart notifications.")
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error stop: {e}")
+
+# /bulk
+@router.message(Command("bulk"))
+async def cmd_bulk(message: Message):
+    try:
+        user_id = message.from_user.id
+        if user_id == ADMIN_ID:
+            users = await db.bulk_user_ids()
+            for user_id in users:
+                logger.info(f"Sent a message to {message.from_user.username}")
+                await message.answer(msg.ADMIN_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
+                await asyncio.sleep(10) # delay in seconds
+            await asyncio.sleep(interval.total_seconds())
+        else:
+            await message.answer("What's wrong with u?")
+    except Exception as e:
+        logger.error(f"Error bulk users: {e}")
+
+# /notifyon
+@router.message(Command("notifyon"))
+async def cmd_restart(message: Message):
+    try:
+        user_id = message.from_user.id
+        await db.update_notification_settings(user_id, send_notifications=True)
+        logger.info(f"User {message.from_user.username} has opted in for automatic notifications.")
+        await message.reply("You have opted in for automatic notifications.")
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error notifyon: {e}")
+
+# 🐕 Pet Me
+@router.message(F.text.endswith("Pet Me"))
+async def pet_me(message: Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if user:
+            current_time = datetime.now()
+            last_request_time = user.get('last_pet_time')
+            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+                await db.set_last_pet_time(user_id, current_time)
+                await db.increment_click_count(user_id)
+                logger.info(f"User {message.from_user.username} requested content.")
+                path = await get_random_file()
+                try:
+                    if "video" in path:
+                        video = FSInputFile(path)
+                        await message.answer_video(video=video)
+                    elif "pic" in path:
+                        pic = FSInputFile(path)
+                        await message.answer_photo(photo=pic)
+                except Exception as e:
+                    await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+                    logger.error(f"Error in send rendom file: {e}")
+            else:
+                await message.answer("Please wait before requesting more content.")
+        else:
+            await message.answer("You are not registered. Use /start to begin.")
+    except Exception as e:
+        logger.error(f"Error petme button: {e}")
+
+# 🍜 Feed me
+@router.message(F.text.endswith("Feed Me"))
+async def pet_me(message: Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if user:
+            current_time = datetime.now()
+            last_request_time = user.get('last_pet_time')
+            logger.info(f"{last_request_time}")
+            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+                logger.info(f"User {message.from_user.username} requested donate.")
+                await message.answer(msg.DONAT, parse_mode="MarkdownV2", reply_markup=main_kb())
+                await asyncio.sleep(10) # delay in seconds
+            else:
+                await message.answer("Please wait before requesting more content.")
+        else:
+            await message.answer("You are not registered. Use /start to begin.")
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error petme button: {e}")
+
+# 🪪 Bio
+@router.message(F.text.endswith("Bio"))
+async def bio(message: Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if user:
+            current_time = datetime.now()
+            last_request_time = user.get('last_pet_time')
+            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+                await db.set_last_pet_time(user_id, current_time)
+                await db.increment_click_count1(user_id)
+                logger.info(f"User {message.from_user.username} requested bio.")
+                await asyncio.sleep(5)
+                file_path = "/app/content/bio/aki-bio.png"
+                photo = FSInputFile(file_path)
+                message_text = msg.BIO_MESSAGE
+                await message.answer_photo(photo=photo, caption=message_text, parse_mode="MarkdownV2")
+            else:
+                await message.answer("Please wait before requesting more content.")
+        else:
+            await message.answer("You are not registered. Use /start to begin.")
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error bio button: {e}")
+
+# 🆘 Help
+@router.message(F.text.endswith("Help"))
+async def help(message: Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if not user:
+            logger.info(f"User {message.from_user.username} not registered. ")
+            await message.answer("You are not registered. Use /start to begin.")
+            return
+        await cmd_help(message)
+    except Exception as e:
+        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error help message button: {e}")
