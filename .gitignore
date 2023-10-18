@@ -5,6 +5,5 @@ log/
 .git/
 .DS_Store
 .env
-
 bup/
 *-venv
