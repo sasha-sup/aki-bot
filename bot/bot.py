@@ -81,9 +81,13 @@ async def cmd_bulk(message: Message):
         if user_id == int(config.ADMIN_ID):
             users = await db.bulk_user_ids()
             for user_id in users:
-                logger.info(f"Sent a message to user_id {user_id}")
-                await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container - easy to edit, w\o service restart
-                await asyncio.sleep(10)  # Delay in seconds
+                try:
+                    logger.info(f"Sent a message to user_id {user_id}")
+                    await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
+                    await asyncio.sleep(10)  # Delay in seconds
+                except aiogram.utils.exceptions.BotBlocked:
+                    logger.warning(f"User {user_id} has blocked the bot. Skipping.")
+                    continue
         else:
             await message.answer("What's wrong with u?")
     except Exception as e:
