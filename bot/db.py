@@ -78,7 +78,7 @@ async def get_all_user_ids():
         logger.error(f"Error get all user: {e}")
     finally:
         await connection.close()
-
+        
 async def bulk_user_ids():
     try:
         connection = await create_db_connection()
@@ -132,3 +132,5 @@ async def set_last_pet_time(user_id, current_time):
         logger.error(f"Error setting last pet time: {e}")
     finally:
         await connection.close()
+
+

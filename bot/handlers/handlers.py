@@ -55,22 +55,6 @@ async def cmd_stop(message: Message):
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error stop: {e}")
 
-# /bulk
-@router.message(Command("bulk"))
-async def cmd_bulk(message: Message):
-    try:
-        user_id = message.from_user.id
-        if user_id == int(config.ADMIN_ID):
-            users = await db.bulk_user_ids()
-            for user_id in users:
-                logger.info(f"Sent a message to {message.from_user.username}")
-                await message.answer(msg.ADMIN_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
-                await asyncio.sleep(10) # delay in seconds
-        else:
-            await message.answer("What's wrong with u?")
-    except Exception as e:
-        logger.error(f"Error bulk users: {e}")
-
 # /notifyon
 @router.message(Command("notifyon"))
 async def cmd_restart(message: Message):
