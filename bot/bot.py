@@ -64,8 +64,8 @@ async def send_messages(bot):
                     logger.error(f"Error send_random_file: {e}")
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
-            await asyncio.sleep(interval.total_seconds())
             logger.info(f"Next iteration in: {interval} hours")
+            await asyncio.sleep(interval.total_seconds())
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_messages: {e}")
