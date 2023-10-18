@@ -9,5 +9,5 @@ services:
     env_file:
       - .env
     volumes:
-      - /opt/akibot/content:/app/content:rw
+      - /root/Yandex.Disk/content:/app/content:rw
       - /var/log/akibot:/app/log:rw
