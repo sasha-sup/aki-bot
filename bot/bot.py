@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 import config
 import db
 import message_templates.message as msg
-from aiogramm.utils import exceptions.BotBlocked
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.filters import Command, CommandStart
@@ -86,7 +85,7 @@ async def cmd_bulk(message: Message):
                     logger.info(f"Sent a message to user_id {user_id}")
                     await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
                     await asyncio.sleep(10)  # Delay in seconds
-                except aiogram.utils.exceptions.BotBlocked:
+                except Exception as e:
                     logger.warning(f"User {user_id} has blocked the bot. Skipping.")
                     continue
         else:
