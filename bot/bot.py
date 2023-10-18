@@ -82,7 +82,7 @@ async def cmd_bulk(message: Message):
             users = await db.bulk_user_ids()
             for user_id in users:
                 logger.info(f"Sent a message to user_id {user_id}")
-                await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
+                await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container - easy to edit, w\o service restart
                 await asyncio.sleep(10)  # Delay in seconds
         else:
             await message.answer("What's wrong with u?")
