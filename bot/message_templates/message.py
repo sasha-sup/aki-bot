@@ -46,8 +46,8 @@ _Commands_\:
 _Buttons_\:
 [🐕 Pet Me] _Get random content_
 [🪪 Bio] _Get Aki's info_
+[🍜 Feed Me] _Donations_
 [🆘 Help] _Get help message_
-
 
 You can also find us on\:
 🌟 [TikTok](https\:\/\/tiktok\.com\/\@sashasup1312) 🌟
