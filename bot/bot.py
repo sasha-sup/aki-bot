@@ -9,7 +9,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import (FSInputFile, KeyboardButton, Message,
-                           ReplyKeyboardMarkup)
+                           ReplyKeyboardMarkup, Command)
 from aiogram.types.message import ContentType
 from aiogram.utils.markdown import hbold
 from config import MAX_TIME, MIN_TIME, logger, path_dict
