@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import config
 import db
 import message_templates.message as msg
+from aiogramm.utils import exceptions.BotBlocked
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.filters import Command, CommandStart
