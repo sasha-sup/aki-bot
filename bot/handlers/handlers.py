@@ -1,6 +1,7 @@
 import asyncio
 from datetime import datetime, timedelta
 
+import config
 import db
 import message_templates.message as msg
 from aiogram import F, Router
@@ -59,13 +60,12 @@ async def cmd_stop(message: Message):
 async def cmd_bulk(message: Message):
     try:
         user_id = message.from_user.id
-        if user_id == ADMIN_ID:
+        if user_id == int(config.ADMIN_ID):
             users = await db.bulk_user_ids()
             for user_id in users:
                 logger.info(f"Sent a message to {message.from_user.username}")
                 await message.answer(msg.ADMIN_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
                 await asyncio.sleep(10) # delay in seconds
-            await asyncio.sleep(interval.total_seconds())
         else:
             await message.answer("What's wrong with u?")
     except Exception as e:

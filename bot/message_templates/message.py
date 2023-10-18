@@ -7,7 +7,7 @@ With love ❤️ from Aki 🦊
 
 
 ADMIN_MESSAGE = """
-Hey\! 😊 Thanks for subscribing to Aki-bot\, we appreciate it\. Today\, we\'re excited to announce a big update 🚀\.
+Hey\! 😊 Thanks for subscribing to Aki\-bot\, we appreciate it\. Today\, we\'re excited to announce a big update 🚀\.
 We\'ve taken care of a lot of uninteresting tech details\.
 But\, you asked for it\, and we\'ve done it\: We\'ve extended our content base to include up to 700 pics 📷 and videos 🎥\!
 Additionally\, I\'ve set up automatic content uploads from my phone 📱 directly to the bot\."
