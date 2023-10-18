@@ -65,6 +65,7 @@ async def send_messages(bot):
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
             await asyncio.sleep(interval.total_seconds())
+            logger.info(f"Next iteration in: {interval} hours")
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_messages: {e}")
@@ -73,11 +74,12 @@ async def main():
     create_content_dirs(path_dict)
     await db.create_tables_if_exists()
     bot = Bot(token=config.TOKEN)
-    await send_messages(bot)
     dp = Dispatcher()
     dp.include_routers(handlers.router)
     await bot.delete_webhook(drop_pending_updates=True)
+    send_messages_task = asyncio.create_task(send_messages(bot))
     await dp.start_polling(bot)
+    await asyncio.gather(send_messages_task)
 
 if __name__ == "__main__":
     asyncio.run(main())
