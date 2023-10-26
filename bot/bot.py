@@ -37,7 +37,7 @@ async def get_random_file():
     try:
         picture_files = [os.path.join(path_dict["PIC_PATH"], filename) for filename in os.listdir(path_dict["PIC_PATH"])]
         video_files = [os.path.join(path_dict["VIDEO_PATH"], filename) for filename in os.listdir(path_dict["VIDEO_PATH"])]
-        ruletka = random.randint(1, 30)
+        ruletka = random.randint(1, 5)
         if ruletka == 1:
             chosen_dir = path_dict["VIDEO_PATH"]
         else:
