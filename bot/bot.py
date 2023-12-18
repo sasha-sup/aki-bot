@@ -84,10 +84,9 @@ async def cmd_bulk(message: Message):
             for user_id in users:
                 try:
                     logger.info(f"Sent a message to user_id {user_id}")
-                    await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
                     path = "/app/content/pic/w-logo_230.JPG"
                     pic = FSInputFile(path)
-                    await bot.send_photo(user_id, photo=pic)
+                    await bot.send_photo(user_id, photo=pic, caption=msg.ADMIN_MESSAGE, parse_mode="MarkdownV2")
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.error(f"Error bulk: {e}")
