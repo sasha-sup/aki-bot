@@ -49,30 +49,30 @@ async def get_random_file():
         logger.error(f"Error get random file: {e}")
 
 # notifier
-# async def send_messages(bot):
-#     try:
-#         while True:
-#             users = await db.get_all_user_ids()
-#             interval = timedelta(hours=(random.randint(MIN_TIME, MAX_TIME)))
-#             for user_id in users:
-#                 try:
-#                     path = await get_random_file()
-#                     if "video" in path:
-#                         video = FSInputFile(path)
-#                         await bot.send_video(user_id, video=video)
-#                     elif "pic" in path:
-#                         pic = FSInputFile(path)
-#                         await bot.send_photo(user_id, photo=pic)
-#                 except Exception as e:
-#                     logger.error(f"Error send_random_file: {e}")
-#                     logger.warning(f"User {user_id} has blocked the bot. Skipping.")
-#                 logger.info(f"Sent a message to {user_id}")
-#                 await asyncio.sleep(10) # delay in seconds
-#             logger.info(f"Next iteration in: {interval} hours")
-#             await asyncio.sleep(interval.total_seconds())
-#     except Exception as e:
-#         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
-#         logger.error(f"Error send_messages: {e}")
+async def send_messages(bot):
+    try:
+        while True:
+            users = await db.get_all_user_ids()
+            interval = timedelta(hours=(random.randint(MIN_TIME, MAX_TIME)))
+            for user_id in users:
+                try:
+                    path = await get_random_file()
+                    if "video" in path:
+                        video = FSInputFile(path)
+                        await bot.send_video(user_id, video=video)
+                    elif "pic" in path:
+                        pic = FSInputFile(path)
+                        await bot.send_photo(user_id, photo=pic)
+                except Exception as e:
+                    logger.error(f"Error send_random_file: {e}")
+                    logger.warning(f"User {user_id} has blocked the bot. Skipping.")
+                logger.info(f"Sent a message to {user_id}")
+                await asyncio.sleep(10) # delay in seconds
+            logger.info(f"Next iteration in: {interval} hours")
+            await asyncio.sleep(interval.total_seconds())
+    except Exception as e:
+        await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
+        logger.error(f"Error send_messages: {e}")
 
 # /bulk
 @dp.message(Command("bulk"))
@@ -84,9 +84,9 @@ async def cmd_bulk(message: Message):
             for user_id in users:
                 try:
                     logger.info(f"Sent a message to user_id {user_id}")
-                    await bot.send_message(int(config.ADMIN_ID), msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
+                    await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
                     pic = "/app/content/pic/w-logo_230.JPG"
-                    await bot.send_photo(int(config.ADMIN_ID), photo=pic)
+                    await bot.send_photo(user_id, photo=pic)
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.warning(f"User {user_id} has blocked the bot. Skipping.")
@@ -97,10 +97,10 @@ async def cmd_bulk(message: Message):
         logger.error(f"Error bulk users: {e}")
 
 async def main():
-    create_content_dirs(path_dict)
-    await db.create_tables_if_exists()
-    dp.include_routers(handlers.router)
     await bot.delete_webhook(drop_pending_updates=True)
+    await db.create_tables_if_exists()
+    create_content_dirs(path_dict)
+    dp.include_routers(handlers.router)
     send_messages_task = asyncio.create_task(send_messages(bot))
     await dp.start_polling(bot)
     await asyncio.gather(send_messages_task)
