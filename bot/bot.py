@@ -89,6 +89,7 @@ async def cmd_bulk(message: Message):
                     await bot.send_photo(user_id, photo=pic)
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
+                    logger.error(f"Error bulk: {e}")
                     logger.warning(f"User {user_id} has blocked the bot. Skipping.")
                     continue
         else:
