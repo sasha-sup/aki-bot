@@ -11,3 +11,4 @@ services:
     volumes:
       - /root/Yandex.Disk/content:/app/content:rw
       - /var/log/akibot:/app/log:rw
+    network_mode: host
