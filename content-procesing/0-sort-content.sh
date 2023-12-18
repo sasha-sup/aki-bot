@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source_directory="/root/Yandex.Disk/content"
+source_directory="/root/Yandex.Disk/content/unsorted"
 image_directory="/root/Yandex.Disk/content/pic"
 video_directory="/root/Yandex.Disk/content/video"
 

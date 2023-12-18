@@ -8,7 +8,7 @@ import db
 import message_templates.message as msg
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
-from aiogram.filters import Command, CommandStart
+from aiogram.filters import Command
 from aiogram.types import (FSInputFile, KeyboardButton, Message,
                            ReplyKeyboardMarkup)
 from aiogram.types.message import ContentType
@@ -37,7 +37,7 @@ async def get_random_file():
     try:
         picture_files = [os.path.join(path_dict["PIC_PATH"], filename) for filename in os.listdir(path_dict["PIC_PATH"])]
         video_files = [os.path.join(path_dict["VIDEO_PATH"], filename) for filename in os.listdir(path_dict["VIDEO_PATH"])]
-        ruletka = random.randint(1, 5)
+        ruletka = random.randint(1, 10)
         if ruletka == 1:
             chosen_dir = path_dict["VIDEO_PATH"]
         else:
@@ -65,6 +65,7 @@ async def send_messages(bot):
                         await bot.send_photo(user_id, photo=pic)
                 except Exception as e:
                     logger.error(f"Error send_random_file: {e}")
+                    logger.warning(f"User {user_id} has blocked the bot. Skipping.")
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
             logger.info(f"Next iteration in: {interval} hours")
@@ -84,6 +85,8 @@ async def cmd_bulk(message: Message):
                 try:
                     logger.info(f"Sent a message to user_id {user_id}")
                     await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
+                    pic = "/app/content/pic/w-logo_230.JPG"
+                    await bot.send_photo(user_id, photo=pic)
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.warning(f"User {user_id} has blocked the bot. Skipping.")
@@ -100,7 +103,7 @@ async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     send_messages_task = asyncio.create_task(send_messages(bot))
     await dp.start_polling(bot)
-    await asyncio.gather(send_messages_task)
+    #await asyncio.gather(send_messages_task)
 
 if __name__ == "__main__":
     asyncio.run(main())
