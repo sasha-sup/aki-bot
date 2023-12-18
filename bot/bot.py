@@ -84,9 +84,9 @@ async def cmd_bulk(message: Message):
             for user_id in users:
                 try:
                     logger.info(f"Sent a message to user_id {user_id}")
-                    await bot.send_message(user_id, msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
+                    await bot.send_message(int(config.ADMIN_ID), msg.ADMIN_MESSAGE, parse_mode="MarkdownV2") # TODO: message templates as markdown file outside of container
                     pic = "/app/content/pic/w-logo_230.JPG"
-                    await bot.send_photo(user_id, photo=pic)
+                    await bot.send_photo(int(config.ADMIN_ID), photo=pic)
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.warning(f"User {user_id} has blocked the bot. Skipping.")
@@ -101,7 +101,7 @@ async def main():
     await db.create_tables_if_exists()
     dp.include_routers(handlers.router)
     await bot.delete_webhook(drop_pending_updates=True)
-    send_messages_task = asyncio.create_task(send_messages(bot))
+    #send_messages_task = asyncio.create_task(send_messages(bot))
     await dp.start_polling(bot)
     #await asyncio.gather(send_messages_task)
 

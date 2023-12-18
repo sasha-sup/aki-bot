@@ -82,7 +82,7 @@ async def get_all_user_ids():
 async def bulk_user_ids():
     try:
         connection = await create_db_connection()
-        query = "SELECT user_id FROM users WHERE id = 1"
+        query = "SELECT user_id FROM users"
         result = await connection.fetch(query)
         user_ids = [record['user_id'] for record in result]
         return user_ids
