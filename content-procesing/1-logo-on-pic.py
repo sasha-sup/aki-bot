@@ -18,8 +18,7 @@ def renamer():
     return max_number
 
 def add_logo(directory, logo_path, output_dir):
-    global new_name
-    new_name = renamer() + 1
+    new_name = int(renamer()) + 1
     image_files = [f for f in os.listdir(directory) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
 
     for image_file in image_files:
@@ -41,9 +40,7 @@ def add_logo(directory, logo_path, output_dir):
             image.save(output_path, "JPEG")
             os.remove(image_path)
             logging.info(f"Processed image: {image_file}, New name: {output_filename}, Moved to: {output_path}")
-            print(f"Processed image: {image_file}")
         except Exception as e:
             logging.error(f"Error processing {image_file}: {e}")
-            print(f"Error processing {image_file}: {e}")
 
 add_logo(INPUT_DIR, LOGO_PATH, OUTPUT_DIR)
