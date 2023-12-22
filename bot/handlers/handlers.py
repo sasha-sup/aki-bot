@@ -33,7 +33,7 @@ async def cmd_start(message: Message):
             await message.delete()
         logger.info(f"User {username} started the bot.")
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error start: {e}")
 
@@ -41,10 +41,10 @@ async def cmd_start(message: Message):
 @router.message(Command("help"))
 async def cmd_help(message: Message):
     try:
-        await message.reply(msg.HELP_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
+        await message.answer(msg.HELP_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
         await message.delete()
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error help: {e}")
 
@@ -55,10 +55,10 @@ async def cmd_stop(message: Message):
         user_id = message.from_user.id
         await db.update_notification_settings(user_id, send_notifications=False)
         logger.info(f"User {message.from_user.username} has opted out of automatic notifications.")
-        await message.reply("You have cancelled notifications.\n Use /notifyon command to restart notifications.")
+        await message.answer("You have cancelled notifications.\n Use /notifyon command to restart notifications.")
         await message.delete()
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error stop: {e}")
 
@@ -69,9 +69,9 @@ async def cmd_restart(message: Message):
         user_id = message.from_user.id
         await db.update_notification_settings(user_id, send_notifications=True)
         logger.info(f"User {message.from_user.username} has opted in for automatic notifications.")
-        await message.reply("You have opted in for automatic notifications.")
+        await message.answer("You have opted in for automatic notifications.")
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error notifyon: {e}")
 
@@ -99,7 +99,7 @@ async def pet_me(message: Message):
                         await message.answer_photo(photo=pic)
                         await message.delete()
                 except Exception as e:
-                    await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+                    await message.answer("⚠️ Something went wrong. Try again or contact admin.")
                     await message.delete()
                     logger.error(f"Error in send rendom file: {e}")
             else:
@@ -133,7 +133,7 @@ async def pet_me(message: Message):
             await message.answer("You are not registered. Use /start to begin.")
             await message.delete()
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error petme button: {e}")
 
@@ -163,7 +163,7 @@ async def bio(message: Message):
             await message.answer("You are not registered. Use /start to begin.")
             await message.delete()
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error bio button: {e}")
 
@@ -180,6 +180,6 @@ async def help(message: Message):
             return
         await cmd_help(message)
     except Exception as e:
-        await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error help message button: {e}")
