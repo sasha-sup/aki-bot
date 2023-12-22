@@ -37,7 +37,7 @@ def add_logo(directory, logo_path, output_dir):
             image = image.convert("RGB")
             image.save(output_path, "JPEG")
             os.remove(image_path)
-            logging.info(f"Processed image: {image_file}")
+            logging.info(f"Processed image: {image_file}, New name: {output_filename}, Moved to: {output_path}")
             print(f"Processed image: {image_file}")
         except Exception as e:
             logging.error(f"Error processing {image_file}: {e}")
