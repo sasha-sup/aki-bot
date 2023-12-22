@@ -1,11 +1,13 @@
 import os
 import random
-
+import logging
 from PIL import Image
 
 LOGO_PATH = "/root/Yandex.Disk/content/logo/akibot-logo1.png"
 INPUT_DIR = "/root/Yandex.Disk/content/unsorted"
 OUTPUT_DIR = "/root/Yandex.Disk/content/pic"
+
+logging.basicConfig(filename='/var/log/akibot/add_logo.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def renamer():
     files = os.listdir(OUTPUT_DIR)
@@ -16,6 +18,7 @@ def renamer():
 def add_logo(directory, logo_path, output_dir):
     new_name = renamer() + 1
     image_files = [f for f in os.listdir(directory) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
+
     for image_file in image_files:
         try:
             if image_file.startswith("w-logo_"):
@@ -33,9 +36,11 @@ def add_logo(directory, logo_path, output_dir):
             image.paste(logo, (x, y), logo)
             image = image.convert("RGB")
             image.save(output_path, "JPEG")
-            print(f"Processed image: {image_file}")
             os.remove(image_path)
+            logging.info(f"Processed image: {image_file}")
+            print(f"Processed image: {image_file}")
         except Exception as e:
+            logging.error(f"Error processing {image_file}: {e}")
             print(f"Error processing {image_file}: {e}")
 
 add_logo(INPUT_DIR, LOGO_PATH, OUTPUT_DIR)
