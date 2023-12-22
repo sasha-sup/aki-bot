@@ -18,10 +18,11 @@ def renamer():
     return max_number
 
 def add_logo(directory, logo_path, output_dir):
-    new_name = int(renamer()) + 1
+
     image_files = [f for f in os.listdir(directory) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
 
     for image_file in image_files:
+        new_name = int(renamer()) + 1
         try:
             if image_file.startswith("w-logo_"):
                 continue
