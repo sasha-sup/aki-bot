@@ -26,12 +26,15 @@ async def cmd_start(message: Message):
         if "video" in path:
             video = FSInputFile(path)
             await message.answer_video(video=video, caption=message_text, parse_mode="MarkdownV2", disable_web_page_preview=True, reply_markup=main_kb())
+            await message.delete()
         elif "pic" in path:
             pic = FSInputFile(path)
             await message.answer_photo(photo=pic, caption=message_text, parse_mode="MarkdownV2", disable_web_page_preview=True, reply_markup=main_kb())
+            await message.delete()
         logger.info(f"User {username} started the bot.")
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error start: {e}")
 
 # /help
@@ -39,8 +42,10 @@ async def cmd_start(message: Message):
 async def cmd_help(message: Message):
     try:
         await message.reply(msg.HELP_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
+        await message.delete()
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error help: {e}")
 
 # /stop
@@ -51,8 +56,10 @@ async def cmd_stop(message: Message):
         await db.update_notification_settings(user_id, send_notifications=False)
         logger.info(f"User {message.from_user.username} has opted out of automatic notifications.")
         await message.reply("You have cancelled notifications.\n Use /notifyon command to restart notifications.")
+        await message.delete()
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error stop: {e}")
 
 # /notifyon
@@ -65,6 +72,7 @@ async def cmd_restart(message: Message):
         await message.reply("You have opted in for automatic notifications.")
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error notifyon: {e}")
 
 # 🐕 Pet Me
@@ -85,16 +93,21 @@ async def pet_me(message: Message):
                     if "video" in path:
                         video = FSInputFile(path)
                         await message.answer_video(video=video)
+                        await message.delete()
                     elif "pic" in path:
                         pic = FSInputFile(path)
                         await message.answer_photo(photo=pic)
+                        await message.delete()
                 except Exception as e:
                     await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+                    await message.delete()
                     logger.error(f"Error in send rendom file: {e}")
             else:
                 await message.answer("Please wait before requesting more content.")
+                await message.delete()
         else:
             await message.answer("You are not registered. Use /start to begin.")
+            await message.delete()
     except Exception as e:
         logger.error(f"Error petme button: {e}")
 
@@ -111,13 +124,17 @@ async def pet_me(message: Message):
             if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
                 logger.info(f"User {message.from_user.username} requested donate.")
                 await message.answer(msg.DONAT, parse_mode="MarkdownV2", reply_markup=main_kb())
+                await message.delete()
                 await asyncio.sleep(10) # delay in seconds
             else:
                 await message.answer("Please wait before requesting more content.")
+                await message.delete()
         else:
             await message.answer("You are not registered. Use /start to begin.")
+            await message.delete()
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error petme button: {e}")
 
 # 🪪 Bio
@@ -138,12 +155,16 @@ async def bio(message: Message):
                 photo = FSInputFile(file_path)
                 message_text = msg.BIO_MESSAGE
                 await message.answer_photo(photo=photo, caption=message_text, parse_mode="MarkdownV2")
+                await message.delete()
             else:
                 await message.answer("Please wait before requesting more content.")
+                await message.delete()
         else:
             await message.answer("You are not registered. Use /start to begin.")
+            await message.delete()
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error bio button: {e}")
 
 # 🆘 Help
@@ -155,8 +176,10 @@ async def help(message: Message):
         if not user:
             logger.info(f"User {message.from_user.username} not registered. ")
             await message.answer("You are not registered. Use /start to begin.")
+            await message.delete()
             return
         await cmd_help(message)
     except Exception as e:
         await message.reply("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
         logger.error(f"Error help message button: {e}")
