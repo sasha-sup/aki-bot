@@ -6,10 +6,12 @@ With love ❤️ from Aki 🦊
 
 
 ADMIN_MESSAGE = """
-Hey\! 😊
-Thanks for subscribing to Aki\-bot\, we appreciate it\.
-Please\, restart the bot to use new features\.
-With love ❤️ from Aki 🦊
+Привет\!😊
+Последнее обновление контента в этом году\. В базе более 120 видео и более 400 уникальных фотографий Акихиро\.
+Спасибо за подписку на аки\-бота\.
+Расскажите о нас друзьям фразой \"Смотри\, какая лисичка \"\.
+В новом году будем стараться радовать вас новым контентом\.
+С любовью ❤️ от Аки 🦊
 """
 
 BIO_MESSAGE = """
@@ -39,12 +41,6 @@ _Commands_\:
 \/start _Enable the bot_
 \/help _Get help message_
 \/stop _Disable notifications_
-
-_Buttons_\:
-[🐕 Pet Me] _Get random content_
-[🪪 Bio] _Get Aki's info_
-[🍜 Feed Me] _Donations_
-[🆘 Help] _Get help message_
 
 You can also find us on\:
 🌟 [TikTok](https\:\/\/tiktok\.com\/\@sashasup1312) 🌟

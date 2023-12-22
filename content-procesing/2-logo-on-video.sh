@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOGO_PATH="/root/Yandex.Disk/content/logo/akibot-logo1.png"
-INPUT_DIR="/root/Yandex.Disk/content/video"
+INPUT_DIR="/root/Yandex.Disk/content/unsorted"
 
 for video_file in "$INPUT_DIR"/*; do
     if [ -f "$video_file" ]; then
