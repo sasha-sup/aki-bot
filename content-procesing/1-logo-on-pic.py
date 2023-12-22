@@ -12,10 +12,13 @@ logging.basicConfig(filename='/var/log/akibot/add_logo.log', level=logging.INFO,
 def renamer():
     files = os.listdir(OUTPUT_DIR)
     filtered_files = [file for file in files if file.startswith('w-logo_')]
+    if not filtered_files:
+        return 0
     max_number = max([int(file.split('_')[1].split('.')[0]) for file in filtered_files])
     return max_number
 
 def add_logo(directory, logo_path, output_dir):
+    global new_name
     new_name = renamer() + 1
     image_files = [f for f in os.listdir(directory) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp'))]
 
