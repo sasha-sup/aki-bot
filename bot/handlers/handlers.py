@@ -183,3 +183,34 @@ async def help(message: Message):
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error help message button: {e}")
+
+
+# 🦊 My sticker pack
+@router.message(F.text.endswith("My sticker pack"))
+async def bio(message: Message):
+    try:
+        user_id = message.from_user.id
+        user = await db.get_user(user_id)
+        if user:
+            current_time = datetime.now()
+            last_request_time = user.get('last_pet_time')
+            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+                await db.set_last_pet_time(user_id, current_time)
+                await db.increment_click_count1(user_id)
+                logger.info(f"User {message.from_user.username} requested stickers.")
+                await asyncio.sleep(5)
+                file_path = "/app/content/pic/w-logo_226.jpg"
+                photo = FSInputFile(file_path)
+                message_text = msg.STICKER_MESSAGE
+                await message.answer_photo(photo=photo, caption=message_text, parse_mode="MarkdownV2")
+                await message.delete()
+            else:
+                await message.answer("Please wait before requesting more content.")
+                await message.delete()
+        else:
+            await message.answer("You are not registered. Use /start to begin.")
+            await message.delete()
+    except Exception as e:
+        await message.answer("⚠️ Something went wrong. Try again or contact admin.")
+        await message.delete()
+        logger.error(f"Error bio button: {e}")
