@@ -120,9 +120,9 @@ async def main():
     create_content_dirs(path_dict)
     dp.include_routers(handlers.router)
     await dp.start_polling(bot)
-    await asyncio.sleep (10) #(2 * 60 * 60)  
+    await asyncio.sleep (1) #(2 * 60 * 60)  
     send_messages_task = asyncio.create_task(send_messages(bot))
-    await asyncio.sleep (20) #(4 * 60 * 60) 
+    await asyncio.sleep (2) #(4 * 60 * 60) 
     send_donat_task = asyncio.create_task(send_donat(bot))
     await asyncio.gather(send_messages_task, send_donat_task)
 
