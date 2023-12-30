@@ -1,13 +1,14 @@
 DONAT = """
-Thank you for subscribing to Aki\-bot\.
-You can help us develop new features and content by donating to [boosty\.to](https\:\/\/boosty\.to\/sashasup1312\/single\-payment\/donation\/483619\/target?share\=target_link)
-With love ❤️ from Aki 🦊
+Благодарим вас за подписку на Аки-бот\! 🤗
+Вы можете помочь нам развивать новые функции и контент\, сделав пожертвование в [Cloudtips](https\:\/\/pay\.cloudtips\.ru\/p\/12c322f0)
+С любовью ❤️ от Аки 🦊
 """
 
 
 ADMIN_MESSAGE = """
 Привет\!😊
-Подготовили и собрали стикпак https://t.me/addstickers/aki_stikers
+Подготовили и собрали стикер пак https\:\/\/t\.me\/addstickers\/aki\_stikers
+Подключили удобную систему донатов\! Вы можете поддержать проект\, сделав пожертвование в [Cloudtips](https\:\/\/pay\.cloudtips\.ru\/p\/12c322f0)
 С любовью ❤️ от Аки 🦊
 """
 
@@ -52,7 +53,7 @@ You can also find us on\:
 🌟 [Reddit](https\:\/\/www\.reddit\.com\/user\/sasha\_sup1312) 🌟
 
 🍜 Help Aki how to earn her own food\:
-[boosty\.to](https\:\/\/boosty\.to\/sashasup1312\/single\-payment\/donation\/483619\/target?share\=target_link)
+[Cloudtips](https://pay.cloudtips.ru/p/12c322f0)
 
 For any issues or feedback\, reach out\:
 📬 [sasha\-sup](https\:\/\/sasha\-sup\.github\.io/)

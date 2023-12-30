@@ -186,7 +186,7 @@ async def help(message: Message):
 
 
 # 🦊 My sticker pack
-@router.message(F.text.endswith("My sticker pack"))
+@router.message(F.text.endswith("Aki sticker pack"))
 async def bio(message: Message):
     try:
         user_id = message.from_user.id

@@ -17,7 +17,7 @@ def main_kb():
             KeyboardButton(text="🍜 Feed Me")
         ],
         [
-            KeyboardButton(text="🦊 My sticker pack")
+            KeyboardButton(text="🦊 Aki sticker pack")
         ],
         [
             KeyboardButton(text="🆘 Help")
