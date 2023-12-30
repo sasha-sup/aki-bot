@@ -53,7 +53,8 @@ async def send_messages(bot):
     try:
         while True:
             users = await db.get_all_user_ids()
-            interval = timedelta(hours=(random.randint(MIN_TIME, MAX_TIME)))
+            interval = timedelta(seconds=(random.randint(MIN_TIME, MAX_TIME)))
+            await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
                     path = await get_random_file()
@@ -68,7 +69,6 @@ async def send_messages(bot):
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
             logger.info(f"Next iteration in: {interval} hours")
-            await asyncio.sleep(interval.total_seconds())
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_messages: {e}")
@@ -78,6 +78,7 @@ async def send_donat(bot):
         while True:
             users = await db.get_all_user_ids()
             interval = timedelta(days=(random.randint(MIN_TIME, MAX_TIME)))
+            await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
                     bot.send_message(user_id, msg.DONAT, parse_mode="MarkdownV2")
@@ -85,8 +86,7 @@ async def send_donat(bot):
                     logger.error(f"Error send_donat: {e}")
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
-            logger.info(f"Next iteration in: {interval} hours")
-            await asyncio.sleep(interval.total_seconds())
+            logger.info(f"Next iteration in: {interval} days")
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_donat: {e}")
@@ -119,10 +119,8 @@ async def main():
     await db.create_tables_if_exists()
     create_content_dirs(path_dict)
     dp.include_routers(handlers.router)
-    await dp.start_polling(bot)
-    await asyncio.sleep (1) #(2 * 60 * 60)  
+    await dp.start_polling(bot) 
     send_messages_task = asyncio.create_task(send_messages(bot))
-    await asyncio.sleep (2) #(4 * 60 * 60) 
     send_donat_task = asyncio.create_task(send_donat(bot))
     await asyncio.gather(send_messages_task, send_donat_task)
 
