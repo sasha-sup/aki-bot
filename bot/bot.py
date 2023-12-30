@@ -119,9 +119,9 @@ async def main():
     await db.create_tables_if_exists()
     create_content_dirs(path_dict)
     dp.include_routers(handlers.router)
-    await send_messages(bot)
-    await send_donat(bot)
+    send_messages_task = asyncio.create_task(send_messages(bot), send_donat(bot))
     await dp.start_polling(bot)
+    await asyncio.gather(send_messages_task)
 
 if __name__ == "__main__":
     asyncio.run(main())
