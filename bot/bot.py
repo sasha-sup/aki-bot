@@ -53,7 +53,7 @@ async def send_messages(bot):
     try:
         while True:
             users = await db.get_all_user_ids()
-            interval = timedelta(seconds=(random.randint(MIN_TIME, MAX_TIME)))
+            interval = timedelta(hours=(random.randint(MIN_TIME, MAX_TIME)))
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
