@@ -34,6 +34,7 @@ for video_file in "$INPUT_DIR"/*; do
     fi
     target_bitrate=$(python3 -c "print(int($max_file_size * 8 / ($duration * 1024)))")
     ffmpeg -i "$video_file" -b:v "$target_bitrate"k -preset medium -vf "scale=1280:-1" "$output_file"
+    sleep 10
 done
 
 for file in "$INPUT_DIR"/*; do

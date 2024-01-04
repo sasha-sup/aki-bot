@@ -11,6 +11,7 @@ for video_file in "$INPUT_DIR"/*; do
             output_video="$INPUT_DIR/w-logo_$file_name"
             ffmpeg -i "$video_file" -i "$LOGO_PATH" -filter_complex "[1:v]scale=iw*0.5:ih*0.5 [logo]; [0:v][logo]overlay=W-w-10:H-h-10[out]" -map "[out]" -map 0:a -c:a copy "$output_video"
             rm $video_file
+            sleep 10
         else
             echo "Skipping file: $video_file (already has 'w-logo' prefix)"
         fi
