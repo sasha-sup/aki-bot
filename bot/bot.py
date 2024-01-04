@@ -102,7 +102,7 @@ async def cmd_bulk(message: Message):
             for user_id in users:
                 try:
                     logger.info(f"Sent a message to user_id {user_id}")
-                    path = "/app/content/pic/w-logo_497.JPG"
+                    path = "/app/content/pic/w-logo_497.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(user_id, photo=pic, caption=msg.ADMIN_MESSAGE, parse_mode="MarkdownV2")
                     await asyncio.sleep(10)  # Delay in seconds
