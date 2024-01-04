@@ -37,7 +37,7 @@ async def get_random_file():
     try:
         picture_files = [os.path.join(path_dict["PIC_PATH"], filename) for filename in os.listdir(path_dict["PIC_PATH"])]
         video_files = [os.path.join(path_dict["VIDEO_PATH"], filename) for filename in os.listdir(path_dict["VIDEO_PATH"])]
-        ruletka = random.randint(1, 11)
+        ruletka = random.randint(1, 6)
         if ruletka == 1:
             chosen_dir = path_dict["VIDEO_PATH"]
         else:
@@ -54,6 +54,7 @@ async def send_messages(bot):
         while True:
             users = await db.get_all_user_ids()
             interval = timedelta(hours=(random.randint(MIN_TIME, MAX_TIME)))
+            logger.info(f"Next iteration in: {interval} hours")
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
@@ -68,7 +69,6 @@ async def send_messages(bot):
                     logger.error(f"Error send_random_file: {e}")
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
-            logger.info(f"Next iteration in: {interval} hours")
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_messages: {e}")
@@ -78,6 +78,7 @@ async def send_donat(bot):
         while True:
             users = await db.get_all_user_ids()
             interval = timedelta(days=(random.randint(MIN_TIME, MAX_TIME)))
+            logger.info(f"Next donat notify in: {interval} days")
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
@@ -86,7 +87,7 @@ async def send_donat(bot):
                     logger.error(f"Error send_donat: {e}")
                 logger.info(f"Sent a message to {user_id}")
                 await asyncio.sleep(10) # delay in seconds
-            logger.info(f"Next iteration in: {interval} days")
+            
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_donat: {e}")
@@ -101,7 +102,7 @@ async def cmd_bulk(message: Message):
             for user_id in users:
                 try:
                     logger.info(f"Sent a message to user_id {user_id}")
-                    path = "/app/content/pic/w-logo_146.JPG"
+                    path = "/app/content/pic/w-logo_497.JPG"
                     pic = FSInputFile(path)
                     await bot.send_photo(user_id, photo=pic, caption=msg.ADMIN_MESSAGE, parse_mode="MarkdownV2")
                     await asyncio.sleep(10)  # Delay in seconds
