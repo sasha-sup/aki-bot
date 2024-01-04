@@ -78,7 +78,7 @@ async def send_donat(bot):
         while True:
             users = await db.get_all_user_ids()
             interval = timedelta(days=(random.randint(MIN_TIME, MAX_TIME)))
-            logger.info(f"Next donat notify in: {interval} days")
+            logger.info(f"Next donat notify in: {interval}")
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
