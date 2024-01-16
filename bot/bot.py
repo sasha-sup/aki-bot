@@ -68,6 +68,7 @@ async def send_messages(bot):
                 except Exception as e:
                     logger.error(f"Error send_random_file: {e}")
                 logger.info(f"Sent a message to {user_id}")
+                logger.warning(f"User {user_id} blocked the bot? Skipping.")
                 await asyncio.sleep(10) # delay in seconds
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
@@ -82,12 +83,14 @@ async def send_donat(bot):
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
-                    bot.send_message(user_id, msg.DONAT, parse_mode="MarkdownV2")
+                    logger.info(f"Sent a donat to user_id {user_id}")
+                    path = "/app/content/pic/w-logo_403.jpg"
+                    pic = FSInputFile(path)
+                    await bot.send_photo(user_id, photo=pic, caption=msg.DONAT, parse_mode="MarkdownV2")
+                    await asyncio.sleep(10)  # Delay in second
                 except Exception as e:
                     logger.error(f"Error send_donat: {e}")
-                logger.info(f"Sent a message to {user_id}")
-                await asyncio.sleep(10) # delay in seconds
-            
+                    logger.warning(f"User {user_id} blocked the bot? Skipping.")
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(f"Error send_donat: {e}")
@@ -108,7 +111,7 @@ async def cmd_bulk(message: Message):
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.error(f"Error bulk: {e}")
-                    logger.warning(f"User {user_id} has blocked the bot. Skipping.")
+                    logger.warning(f"User {user_id} blocked the bot? Skipping.")
                     continue
         else:
             await message.answer("What's wrong with u?")
