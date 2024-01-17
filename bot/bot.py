@@ -65,6 +65,7 @@ async def send_messages(bot):
                     elif "pic" in path:
                         pic = FSInputFile(path)
                         await bot.send_photo(user_id, photo=pic)
+                    logger.info(f"Sent file {path} to {user_id}")
                 except Exception as e:
                     logger.error(f"Error send_random_file: {e}")
                     logger.warning(f"User {user_id} blocked the bot? Skipping.")
@@ -86,6 +87,7 @@ async def send_donat(bot):
                     path = "/app/content/pic/w-logo_403.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(user_id, photo=pic, caption=msg.DONAT, parse_mode="MarkdownV2")
+                    logger.info(f"Sent donat msg to {user_id}")
                     await asyncio.sleep(10)  # Delay in second
                 except Exception as e:
                     logger.error(f"Error send_donat: {e}")
@@ -103,10 +105,10 @@ async def cmd_bulk(message: Message):
             users = await db.bulk_user_ids()
             for user_id in users:
                 try:
-                    logger.info(f"Sent a message to user_id {user_id}")
                     path = "/app/content/pic/w-logo_497.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(user_id, photo=pic, caption=msg.ADMIN_MESSAGE, parse_mode="MarkdownV2")
+                    logger.info(f"Sent bulk to {user_id}")
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.error(f"Error bulk: {e}")
