@@ -67,7 +67,7 @@ async def send_messages(bot):
                         await bot.send_photo(user_id, photo=pic)
                     logger.info(f"Sent file {path} to {user_id}")
                 except Exception as e:
-                    logger.error(f"Error send_random_file: {e}")
+                    logger.error(f"Error with {path}: {e}")
                     logger.warning(f"User {user_id} blocked the bot? Skipping.")
                 await asyncio.sleep(10) # delay in seconds
     except Exception as e:
