@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -f .env ]; then
-    source .env
+if [ -f /opt/akibot/logo-4tec/.env ]; then
+    source /opt/akibot/logo-4tec/.env
 fi
 
 log_file="/var/log/akibot/main.log"

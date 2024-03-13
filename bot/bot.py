@@ -84,7 +84,7 @@ async def send_donat(bot):
             for user_id in users:
                 try:
                     logger.info(f"Sent a donat to user_id {user_id}")
-                    path = "/app/content/pic/w-logo_403.jpg"
+                    path = "/app/content/pic/w-logo_546.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(user_id, photo=pic, caption=msg.DONAT, parse_mode="MarkdownV2")
                     logger.info(f"Sent donat msg to {user_id}")
@@ -105,7 +105,7 @@ async def cmd_bulk(message: Message):
             users = await db.bulk_user_ids()
             for user_id in users:
                 try:
-                    path = "/app/content/pic/w-logo_497.jpg"
+                    path = "/app/content/pic/w-logo_546.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(user_id, photo=pic, caption=msg.ADMIN_MESSAGE, parse_mode="MarkdownV2")
                     logger.info(f"Sent bulk to {user_id}")

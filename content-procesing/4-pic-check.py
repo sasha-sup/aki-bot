@@ -21,9 +21,6 @@ def resize_and_compress_image(input_path, output_path, max_size=10, max_dimensio
             if os.path.getsize(input_path) / (1024 * 1024) > max_size:
                 raise Exception(f"Size of {input_path} > 10 MB")
 
-            if width + height > max_dimensions:
-                raise Exception(f"Sum of width and height of {input_path} exceeds 10000 pixels")
-
             if width / height > max_ratio or height / width > max_ratio:
                 raise Exception(f"Aspect ratio of {input_path} exceeds 20")
 
