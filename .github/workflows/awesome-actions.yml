@@ -32,8 +32,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Localhub login
-        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USERNAME }}" --password-stdin {{ secrets.REGISTRY_URL }}
+      - name: Log in to localhub
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Build Aki-Bot Docker image
         run: docker build . --file Dockerfile --tag aki-bot-core:stable

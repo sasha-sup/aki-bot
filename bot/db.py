@@ -2,7 +2,7 @@ import asyncpg
 import config
 from logger import logger
 
-my_super_secret_pass="2dsalfidsafliudfgdsaliufdsaliufsa"
+
 async def create_db_connection():
     db_config = {
         "host": config.DB_HOST,
