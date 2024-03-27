@@ -44,9 +44,18 @@ jobs:
       
       - name: Build and tag Aki-Bot Docker image
         run: |
-          docker build . --file Dockerfile --tag aki-bot-core:stable
+          docker build . --file bot/Dockerfile --tag aki-bot-core:stable
           docker tag aki-bot-core:stable ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
 
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
-      
+
+  # deploy_aki_bot_core_image:
+  #   name: Deploy Aki-Bot Image
+  #   runs-on: ubuntu-latest
+  #   needs: build_aki_bot_core_image 
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+    
