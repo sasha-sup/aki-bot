@@ -1,6 +1,6 @@
 import asyncpg
 import config
-from config import logger
+from logger import logger
 
 
 async def create_db_connection():

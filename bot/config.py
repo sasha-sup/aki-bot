@@ -1,4 +1,3 @@
-import logging
 import os
 
 # Time range for message
@@ -19,13 +18,3 @@ path_dict = {
     "PIC_PATH": "/app/content/pic",
     "VIDEO_PATH": "/app/content/video"
 }
-
-# log
-log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logging.basicConfig(
-    format=log_format,
-    level=logging.DEBUG,
-    filename="/app/log/main.log")
-logging.getLogger("httpx").setLevel(logging.WARNING)
-
-logger = logging.getLogger(__name__)
