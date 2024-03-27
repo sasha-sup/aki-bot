@@ -45,4 +45,4 @@ jobs:
         run: docker build . --file Dockerfile --tag aki-bot-core:stable
       
       - name: Push Docker image to registry
-        run: docker push {{ secrets.REGISTRY_URL }}/aki-bot-core:stable
+        run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
