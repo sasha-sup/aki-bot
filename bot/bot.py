@@ -13,7 +13,7 @@ from aiogram.types import (FSInputFile, KeyboardButton, Message,
                            ReplyKeyboardMarkup)
 from aiogram.types.message import ContentType
 from aiogram.utils.markdown import hbold
-from config import MAX_TIME, MIN_TIME, logger, path_dict
+from config import MAX_TIME, MIN_TIME, path_dict
 from handlers import handlers
 
 bot = Bot(token=config.TOKEN)
