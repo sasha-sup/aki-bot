@@ -15,6 +15,7 @@ from aiogram.types.message import ContentType
 from aiogram.utils.markdown import hbold
 from config import MAX_TIME, MIN_TIME, path_dict
 from handlers import handlers
+from logger import logger
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher()

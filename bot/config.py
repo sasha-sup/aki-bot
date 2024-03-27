@@ -1,5 +1,3 @@
-import os
-
 # Time range for message
 MIN_TIME = 2
 MAX_TIME = 24
