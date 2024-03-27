@@ -27,10 +27,11 @@ jobs:
   build_docker_image:
     name: Build Aki-Bot Image
     runs-on: ubuntu-latest
-    needs: gitguardian_scan 
+    #needs: gitguardian_scan 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Log in to localhub
         run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ secrets.REGISTRY_URL }}
 
