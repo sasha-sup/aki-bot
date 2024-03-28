@@ -8,5 +8,5 @@ RUN apt-get update \
 COPY requirements.txt .
 RUN python -m pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
-COPY bot .
-CMD ["python", "bot.py"]
+COPY image-preparation .
+CMD ["python", "main.py"]

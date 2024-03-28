@@ -20,7 +20,6 @@ STICKER_MESSAGE = """
 """
 
 
-
 BIO_MESSAGE = """
 💬 Basic Information\:
 \- *Name\:* Akihiro

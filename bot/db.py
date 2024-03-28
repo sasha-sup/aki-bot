@@ -19,13 +19,16 @@ async def create_db_connection():
         logger.error(f"Error connecting to DB: {e}")
         raise e
 
+
 async def close_db_connection(connection):
     await connection.close()
+
 
 async def create_tables_if_exists():
     connection = await create_db_connection()
     try:
-        await connection.execute("""
+        await connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 user_id BIGINT UNIQUE NOT NULL,
@@ -34,11 +37,13 @@ async def create_tables_if_exists():
                 total_pet_clicks INT DEFAULT 0,
                 last_pet_time timestamp,
                 username VARCHAR(255));
-            """)
+            """
+        )
     except asyncpg.PostgresError as e:
         logger.error(f"Error creating table: {e}")
     finally:
         await connection.close()
+
 
 async def ensure_user_exists(user_id, username):
     connection = await create_db_connection()
@@ -56,6 +61,7 @@ async def ensure_user_exists(user_id, username):
     finally:
         await connection.close()
 
+
 async def get_user(user_id):
     try:
         connection = await create_db_connection()
@@ -67,29 +73,32 @@ async def get_user(user_id):
     finally:
         await connection.close()
 
+
 async def get_all_user_ids():
     try:
         connection = await create_db_connection()
         query = "SELECT user_id FROM users WHERE send_notifications = TRUE"
         result = await connection.fetch(query)
-        user_ids = [record['user_id'] for record in result]
+        user_ids = [record["user_id"] for record in result]
         return user_ids
     except asyncpg.PostgresError as e:
         logger.error(f"Error get all user: {e}")
     finally:
         await connection.close()
 
+
 async def bulk_user_ids():
     try:
         connection = await create_db_connection()
         query = "SELECT user_id FROM users"
         result = await connection.fetch(query)
-        user_ids = [record['user_id'] for record in result]
+        user_ids = [record["user_id"] for record in result]
         return user_ids
     except asyncpg.PostgresError as e:
         logger.error(f"Error get bulk user: {e}")
     finally:
         await connection.close()
+
 
 async def update_notification_settings(user_id, send_notifications):
     connection = await create_db_connection()
@@ -100,6 +109,7 @@ async def update_notification_settings(user_id, send_notifications):
         logger.error(f"Error updating notification settings: {e}")
     finally:
         await connection.close()
+
 
 # total pet click
 async def increment_click_count(user_id):
@@ -112,6 +122,7 @@ async def increment_click_count(user_id):
     finally:
         await connection.close()
 
+
 # total bio click
 async def increment_click_count1(user_id):
     connection = await create_db_connection()
@@ -122,6 +133,7 @@ async def increment_click_count1(user_id):
         logger.error(f"Error incrementing click count: {e}")
     finally:
         await connection.close()
+
 
 async def set_last_pet_time(user_id, current_time):
     connection = await create_db_connection()

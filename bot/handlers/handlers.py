@@ -15,6 +15,7 @@ from bot import get_random_file
 
 router = Router()
 
+
 # /start
 @router.message(Command("start"))
 async def cmd_start(message: Message):
@@ -26,11 +27,23 @@ async def cmd_start(message: Message):
         message_text = msg.WELCOME_MESSAGE
         if "video" in path:
             video = FSInputFile(path)
-            await message.answer_video(video=video, caption=message_text, parse_mode="MarkdownV2", disable_web_page_preview=True, reply_markup=main_kb())
+            await message.answer_video(
+                video=video,
+                caption=message_text,
+                parse_mode="MarkdownV2",
+                disable_web_page_preview=True,
+                reply_markup=main_kb(),
+            )
             await message.delete()
         elif "pic" in path:
             pic = FSInputFile(path)
-            await message.answer_photo(photo=pic, caption=message_text, parse_mode="MarkdownV2", disable_web_page_preview=True, reply_markup=main_kb())
+            await message.answer_photo(
+                photo=pic,
+                caption=message_text,
+                parse_mode="MarkdownV2",
+                disable_web_page_preview=True,
+                reply_markup=main_kb(),
+            )
             await message.delete()
         logger.info(f"User {username} started the bot.")
     except Exception as e:
@@ -38,16 +51,20 @@ async def cmd_start(message: Message):
         await message.delete()
         logger.error(f"Error start: {e}")
 
+
 # /help
 @router.message(Command("help"))
 async def cmd_help(message: Message):
     try:
-        await message.answer(msg.HELP_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb())
+        await message.answer(
+            msg.HELP_MESSAGE, parse_mode="MarkdownV2", reply_markup=main_kb()
+        )
         await message.delete()
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error help: {e}")
+
 
 # /stop
 @router.message(Command("stop"))
@@ -55,13 +72,18 @@ async def cmd_stop(message: Message):
     try:
         user_id = message.from_user.id
         await db.update_notification_settings(user_id, send_notifications=False)
-        logger.info(f"User {message.from_user.username} has opted out of automatic notifications.")
-        await message.answer("You have cancelled notifications.\n Use /notifyon command to restart notifications.")
+        logger.info(
+            f"User {message.from_user.username} has opted out of automatic notifications."
+        )
+        await message.answer(
+            "You have cancelled notifications.\n Use /notifyon command to restart notifications."
+        )
         await message.delete()
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error stop: {e}")
+
 
 # /notifyon
 @router.message(Command("notifyon"))
@@ -69,12 +91,15 @@ async def cmd_restart(message: Message):
     try:
         user_id = message.from_user.id
         await db.update_notification_settings(user_id, send_notifications=True)
-        logger.info(f"User {message.from_user.username} has opted in for automatic notifications.")
+        logger.info(
+            f"User {message.from_user.username} has opted in for automatic notifications."
+        )
         await message.answer("You have opted in for automatic notifications.")
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error notifyon: {e}")
+
 
 # 🐕 Pet Me
 @router.message(F.text.endswith("Pet Me"))
@@ -84,8 +109,11 @@ async def pet_me(message: Message):
         user = await db.get_user(user_id)
         if user:
             current_time = datetime.now()
-            last_request_time = user.get('last_pet_time')
-            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+            last_request_time = user.get("last_pet_time")
+            if (
+                last_request_time is None
+                or current_time - last_request_time >= timedelta(seconds=69)
+            ):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count(user_id)
                 logger.info(f"User {message.from_user.username} requested content.")
@@ -100,7 +128,9 @@ async def pet_me(message: Message):
                         await message.answer_photo(photo=pic)
                         await message.delete()
                 except Exception as e:
-                    await message.answer("⚠️ Something went wrong. Try again or contact admin.")
+                    await message.answer(
+                        "⚠️ Something went wrong. Try again or contact admin."
+                    )
                     await message.delete()
                     logger.error(f"Error in send rendom file: {e}")
             else:
@@ -112,6 +142,7 @@ async def pet_me(message: Message):
     except Exception as e:
         logger.error(f"Error petme button: {e}")
 
+
 # 🍜 Feed me
 @router.message(F.text.endswith("Feed Me"))
 async def pet_me(message: Message):
@@ -120,13 +151,18 @@ async def pet_me(message: Message):
         user = await db.get_user(user_id)
         if user:
             current_time = datetime.now()
-            last_request_time = user.get('last_pet_time')
+            last_request_time = user.get("last_pet_time")
             logger.info(f"{last_request_time}")
-            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+            if (
+                last_request_time is None
+                or current_time - last_request_time >= timedelta(seconds=69)
+            ):
                 logger.info(f"User {message.from_user.username} requested donate.")
-                await message.answer(msg.DONAT, parse_mode="MarkdownV2", reply_markup=main_kb())
+                await message.answer(
+                    msg.DONAT, parse_mode="MarkdownV2", reply_markup=main_kb()
+                )
                 await message.delete()
-                await asyncio.sleep(10) # delay in seconds
+                await asyncio.sleep(10)  # delay in seconds
             else:
                 await message.answer("Please wait before requesting more content.")
                 await message.delete()
@@ -138,6 +174,7 @@ async def pet_me(message: Message):
         await message.delete()
         logger.error(f"Error petme button: {e}")
 
+
 # 🪪 Bio
 @router.message(F.text.endswith("Bio"))
 async def bio(message: Message):
@@ -146,8 +183,11 @@ async def bio(message: Message):
         user = await db.get_user(user_id)
         if user:
             current_time = datetime.now()
-            last_request_time = user.get('last_pet_time')
-            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+            last_request_time = user.get("last_pet_time")
+            if (
+                last_request_time is None
+                or current_time - last_request_time >= timedelta(seconds=69)
+            ):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count1(user_id)
                 logger.info(f"User {message.from_user.username} requested bio.")
@@ -155,7 +195,9 @@ async def bio(message: Message):
                 file_path = "/app/content/bio/aki-bio.png"
                 photo = FSInputFile(file_path)
                 message_text = msg.BIO_MESSAGE
-                await message.answer_photo(photo=photo, caption=message_text, parse_mode="MarkdownV2")
+                await message.answer_photo(
+                    photo=photo, caption=message_text, parse_mode="MarkdownV2"
+                )
                 await message.delete()
             else:
                 await message.answer("Please wait before requesting more content.")
@@ -167,6 +209,7 @@ async def bio(message: Message):
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
         logger.error(f"Error bio button: {e}")
+
 
 # 🆘 Help
 @router.message(F.text.endswith("Help"))
@@ -194,8 +237,11 @@ async def bio(message: Message):
         user = await db.get_user(user_id)
         if user:
             current_time = datetime.now()
-            last_request_time = user.get('last_pet_time')
-            if last_request_time is None or current_time - last_request_time >= timedelta(seconds=69):
+            last_request_time = user.get("last_pet_time")
+            if (
+                last_request_time is None
+                or current_time - last_request_time >= timedelta(seconds=69)
+            ):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count1(user_id)
                 logger.info(f"User {message.from_user.username} requested stickers.")
@@ -203,7 +249,9 @@ async def bio(message: Message):
                 file_path = "/app/content/pic/w-logo_226.jpg"
                 photo = FSInputFile(file_path)
                 message_text = msg.STICKER_MESSAGE
-                await message.answer_photo(photo=photo, caption=message_text, parse_mode="MarkdownV2")
+                await message.answer_photo(
+                    photo=photo, caption=message_text, parse_mode="MarkdownV2"
+                )
                 await message.delete()
             else:
                 await message.answer("Please wait before requesting more content.")
