@@ -30,11 +30,20 @@ def create_content_dirs(path_dict):
         ]:
             if not os.path.exists(dir_path):
                 os.makedirs(dir_path)
-                logger.info(f"Created directory: {dir_path}")
+                logger.info(
+                    f"Created directory: {dir_path}",
+                    extra={"tags": {"Aki-Bot-Core": "Core"}},
+                )
             else:
-                logger.info(f"Directory already exists: {dir_path}")
+                logger.info(
+                    f"Directory already exists: {dir_path}",
+                    extra={"tags": {"Aki-Bot-Core": "Core"}},
+                )
     except Exception as e:
-        logger.error(f"Error creating directories: {e}")
+        logger.error(
+            f"Error creating directories: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
         raise e
 
 
@@ -58,7 +67,10 @@ async def get_random_file():
         file_path = os.path.join(chosen_dir, chosen_file)
         return file_path
     except Exception as e:
-        logger.error(f"Error get random file: {e}")
+        logger.error(
+            f"Error get random file: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # notifier
@@ -78,14 +90,26 @@ async def send_messages(bot):
                     elif "pic" in path:
                         pic = FSInputFile(path)
                         await bot.send_photo(user_id, photo=pic)
-                    logger.info(f"Sent file {path} to {user_id}")
+                    logger.info(
+                        f"Sent file {path} to {user_id}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
                 except Exception as e:
-                    logger.error(f"Error with {path}: {e}")
-                    logger.warning(f"User {user_id} blocked the bot? Skipping.")
+                    logger.error(
+                        f"Error with {path}: {e}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
+                    logger.warning(
+                        f"User {user_id} blocked the bot? Skipping.",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
                 await asyncio.sleep(10)  # delay in seconds
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
-        logger.error(f"Error send_messages: {e}")
+        logger.error(
+            f"Error send_messages: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 async def send_donat(bot):
@@ -93,24 +117,42 @@ async def send_donat(bot):
         while True:
             users = await db.get_all_user_ids()
             interval = timedelta(days=(random.randint(MIN_TIME, MAX_TIME)))
-            logger.info(f"Next donat notify in: {interval}")
+            logger.info(
+                f"Next donat notify in: {interval}",
+                extra={"tags": {"Aki-Bot-Core": "Core"}},
+            )
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
                 try:
-                    logger.info(f"Sent a donat to user_id {user_id}")
+                    logger.info(
+                        f"Sent a donat to user_id {user_id}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
                     path = "/app/content/pic/w-logo_546.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(
                         user_id, photo=pic, caption=msg.DONAT, parse_mode="MarkdownV2"
                     )
-                    logger.info(f"Sent donat msg to {user_id}")
+                    logger.info(
+                        f"Sent donat msg to {user_id}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
                     await asyncio.sleep(10)  # Delay in second
                 except Exception as e:
-                    logger.error(f"Error send_donat: {e}")
-                    logger.warning(f"User {user_id} blocked the bot? Skipping.")
+                    logger.error(
+                        f"Error send_donat: {e}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
+                    logger.warning(
+                        f"User {user_id} blocked the bot? Skipping.",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
-        logger.error(f"Error send_donat: {e}")
+        logger.error(
+            f"Error send_donat: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # /bulk
@@ -133,13 +175,22 @@ async def cmd_bulk(message: Message):
                     logger.info(f"Sent bulk to {user_id}")
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
-                    logger.error(f"Error bulk: {e}")
-                    logger.warning(f"User {user_id} blocked the bot? Skipping.")
+                    logger.error(
+                        f"Error bulk: {e}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
+                    logger.warning(
+                        f"User {user_id} blocked the bot? Skipping.",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
                     continue
         else:
             await message.answer("What's wrong with u?")
     except Exception as e:
-        logger.error(f"Error bulk users: {e}")
+        logger.error(
+            f"Error bulk users: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 async def main():

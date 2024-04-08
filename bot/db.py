@@ -16,7 +16,10 @@ async def create_db_connection():
         connection = await asyncpg.connect(**db_config)
         return connection
     except asyncpg.PostgresError as e:
-        logger.error(f"Error connecting to DB: {e}")
+        logger.error(
+            f"Error connecting to DB: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
         raise e
 
 
@@ -40,7 +43,11 @@ async def create_tables_if_exists():
             """
         )
     except asyncpg.PostgresError as e:
-        logger.error(f"Error creating table: {e}")
+        logger.error(
+            f"Error creating table: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
+        raise e
     finally:
         await connection.close()
 
@@ -53,11 +60,20 @@ async def ensure_user_exists(user_id, username):
         if user is None:
             insert_query = "INSERT INTO users (user_id, username, send_notifications) VALUES ($1, $2, TRUE)"
             await connection.execute(insert_query, user_id, username)
-            logger.info(f"Added new user with user_id {user_id}, username {username}")
+            logger.info(
+                f"Added new user with user_id {user_id}, username {username}",
+                extra={"tags": {"Aki-Bot-Core": "DB"}},
+            )
     except asyncpg.UniqueViolationError:
-        logger.warning(f"User with user_id {user_id} already exists.")
+        logger.warning(
+            f"User with user_id {user_id} already exists.",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     except asyncpg.PostgresError as e:
-        logger.error(f"Error adding user: {e}")
+        logger.error(
+            f"Error adding user: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -69,7 +85,10 @@ async def get_user(user_id):
         result = await connection.fetchrow(query, user_id)
         return result
     except asyncpg.PostgresError as e:
-        logger.error(f"Error get user: {e}")
+        logger.error(
+            f"Error get user: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -82,7 +101,10 @@ async def get_all_user_ids():
         user_ids = [record["user_id"] for record in result]
         return user_ids
     except asyncpg.PostgresError as e:
-        logger.error(f"Error get all user: {e}")
+        logger.error(
+            f"Error get all user: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -95,7 +117,10 @@ async def bulk_user_ids():
         user_ids = [record["user_id"] for record in result]
         return user_ids
     except asyncpg.PostgresError as e:
-        logger.error(f"Error get bulk user: {e}")
+        logger.error(
+            f"Error get bulk user: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -106,7 +131,10 @@ async def update_notification_settings(user_id, send_notifications):
         query = "UPDATE users SET send_notifications = $2 WHERE user_id = $1"
         await connection.execute(query, user_id, send_notifications)
     except asyncpg.PostgresError as e:
-        logger.error(f"Error updating notification settings: {e}")
+        logger.error(
+            f"Error updating notification settings: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -118,7 +146,10 @@ async def increment_click_count(user_id):
         update_query = "UPDATE users SET total_pet_clicks = total_pet_clicks + 1 WHERE user_id = $1"
         await connection.execute(update_query, user_id)
     except asyncpg.PostgresError as e:
-        logger.error(f"Error incrementing click count: {e}")
+        logger.error(
+            f"Error incrementing click count: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -130,7 +161,10 @@ async def increment_click_count1(user_id):
         update_query = "UPDATE users SET bio_clicks = bio_clicks + 1 WHERE user_id = $1"
         await connection.execute(update_query, user_id)
     except asyncpg.PostgresError as e:
-        logger.error(f"Error incrementing click count: {e}")
+        logger.error(
+            f"Error incrementing click count: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()
 
@@ -141,6 +175,9 @@ async def set_last_pet_time(user_id, current_time):
         update_query = "UPDATE users SET last_pet_time = $2 WHERE user_id = $1"
         await connection.execute(update_query, user_id, current_time)
     except asyncpg.PostgresError as e:
-        logger.error(f"Error setting last pet time: {e}")
+        logger.error(
+            f"Error setting last pet time: {e}",
+            extra={"tags": {"Aki-Bot-Core": "DB"}},
+        )
     finally:
         await connection.close()

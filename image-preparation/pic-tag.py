@@ -44,10 +44,14 @@ def add_logo(directory, logo_path, output_dir):
             image.save(output_path, "JPEG")
             os.remove(image_path)
             logging.info(
-                f"Image: {image_file}, New name: {output_filename}, Moved to: {output_path}"
+                f"Image: {image_file}, New name: {output_filename}, Moved to: {output_path}",
+                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Tag"}},
             )
         except Exception as e:
-            logging.error(f"Error add_logo {image_file}: {e}")
+            logging.error(
+                f"Error add_logo {image_file}: {e}",
+                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Rotate"}},
+            )
 
 
 add_logo(config["NEW_PIC_DIR"], config["LOGO_PATH"], config["PIC_DIR"])

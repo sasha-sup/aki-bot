@@ -1,10 +1,12 @@
+*-venv
 __pycache__/
 *.pyc
+*.yaml
+*.yml
 content/
 log/
-.git/
+*.log
 .DS_Store
 .env
-bup/
-*-venv
-loki_conf.py
+*.sh
+

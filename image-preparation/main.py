@@ -10,7 +10,10 @@ def main():
         # rotate()
         add_logo()
     except Exception as e:
-        logger.error(f"Error in main function: {e}")
+        logger.error(
+            f"Error in main function: {e}",
+            extra={"tags": {"Aki-Bot-Image-Prep": "Resizer"}},
+        )
 
 
 if __name__ == "__main__":

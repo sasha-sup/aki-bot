@@ -1,1 +1,2 @@
 Pillow==10.1.0
+python-logging-loki==0.3.1

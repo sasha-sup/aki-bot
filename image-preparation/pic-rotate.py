@@ -20,13 +20,20 @@ def rotate(directory):
                 angle = 180
                 rotated_image = image.rotate(angle, expand=True)
                 rotated_image.save(output_path, "JPEG")
-                logger.info(f"Processed image: {image_file}")
+                logger.info(
+                    f"Processed image: {image_file}",
+                    extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Rotate"}},
+                )
                 os.remove(image_path)
             except Exception as e:
-                logger.error(f"Error image rotate {image_file}: {e}")
+                logger.error(
+                    f"Error image rotate {image_file}: {e}",
+                    extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Rotate"}},
+                )
     except Exception as e:
         logger.error(
-            f"Error in image rotate --> creating directory or listing image files: {e}"
+            f"Error in image rotate --> creating directory or listing image files: {e}",
+            extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Rotate"}},
         )
 
 

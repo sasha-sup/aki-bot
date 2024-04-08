@@ -44,6 +44,7 @@ jobs:
       
       - name: Build and tag Aki-Bot Docker image
         run: |
+          cd bot
           docker build . --file bot/Dockerfile --tag aki-bot-core:stable
           docker tag aki-bot-core:stable ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
 

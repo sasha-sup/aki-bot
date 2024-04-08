@@ -45,11 +45,17 @@ async def cmd_start(message: Message):
                 reply_markup=main_kb(),
             )
             await message.delete()
-        logger.info(f"User {username} started the bot.")
+        logger.info(
+            f"User {username} started the bot.",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error start: {e}")
+        logger.error(
+            f"Error start: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # /help
@@ -63,7 +69,10 @@ async def cmd_help(message: Message):
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error help: {e}")
+        logger.error(
+            f"Error help: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # /stop
@@ -73,7 +82,8 @@ async def cmd_stop(message: Message):
         user_id = message.from_user.id
         await db.update_notification_settings(user_id, send_notifications=False)
         logger.info(
-            f"User {message.from_user.username} has opted out of automatic notifications."
+            f"User {message.from_user.username} has opted out of automatic notifications.",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
         )
         await message.answer(
             "You have cancelled notifications.\n Use /notifyon command to restart notifications."
@@ -82,7 +92,10 @@ async def cmd_stop(message: Message):
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error stop: {e}")
+        logger.error(
+            f"Error stop: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # /notifyon
@@ -92,13 +105,17 @@ async def cmd_restart(message: Message):
         user_id = message.from_user.id
         await db.update_notification_settings(user_id, send_notifications=True)
         logger.info(
-            f"User {message.from_user.username} has opted in for automatic notifications."
+            f"User {message.from_user.username} has opted in for automatic notifications.",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
         )
         await message.answer("You have opted in for automatic notifications.")
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error notifyon: {e}")
+        logger.error(
+            f"Error notifyon: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # 🐕 Pet Me
@@ -116,7 +133,10 @@ async def pet_me(message: Message):
             ):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count(user_id)
-                logger.info(f"User {message.from_user.username} requested content.")
+                logger.info(
+                    f"User {message.from_user.username} requested content.",
+                    extra={"tags": {"Aki-Bot-Core": "Core"}},
+                )
                 path = await get_random_file()
                 try:
                     if "video" in path:
@@ -132,7 +152,10 @@ async def pet_me(message: Message):
                         "⚠️ Something went wrong. Try again or contact admin."
                     )
                     await message.delete()
-                    logger.error(f"Error in send rendom file: {e}")
+                    logger.error(
+                        f"Error in send rendom file: {e}",
+                        extra={"tags": {"Aki-Bot-Core": "Core"}},
+                    )
             else:
                 await message.answer("Please wait before requesting more content.")
                 await message.delete()
@@ -140,7 +163,10 @@ async def pet_me(message: Message):
             await message.answer("You are not registered. Use /start to begin.")
             await message.delete()
     except Exception as e:
-        logger.error(f"Error petme button: {e}")
+        logger.error(
+            f"Error petme button: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # 🍜 Feed me
@@ -152,12 +178,18 @@ async def pet_me(message: Message):
         if user:
             current_time = datetime.now()
             last_request_time = user.get("last_pet_time")
-            logger.info(f"{last_request_time}")
+            logger.info(
+                f"{last_request_time}",
+                extra={"tags": {"Aki-Bot-Core": "Core"}},
+            )
             if (
                 last_request_time is None
                 or current_time - last_request_time >= timedelta(seconds=69)
             ):
-                logger.info(f"User {message.from_user.username} requested donate.")
+                logger.info(
+                    f"User {message.from_user.username} requested donate.",
+                    extra={"tags": {"Aki-Bot-Core": "Core"}},
+                )
                 await message.answer(
                     msg.DONAT, parse_mode="MarkdownV2", reply_markup=main_kb()
                 )
@@ -172,7 +204,10 @@ async def pet_me(message: Message):
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error petme button: {e}")
+        logger.error(
+            f"Error petme button: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # 🪪 Bio
@@ -190,7 +225,10 @@ async def bio(message: Message):
             ):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count1(user_id)
-                logger.info(f"User {message.from_user.username} requested bio.")
+                logger.info(
+                    f"User {message.from_user.username} requested bio.",
+                    extra={"tags": {"Aki-Bot-Core": "Core"}},
+                )
                 await asyncio.sleep(5)
                 file_path = "/app/content/bio/aki-bio.png"
                 photo = FSInputFile(file_path)
@@ -208,7 +246,10 @@ async def bio(message: Message):
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error bio button: {e}")
+        logger.error(
+            f"Error bio button: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # 🆘 Help
@@ -218,7 +259,10 @@ async def help(message: Message):
         user_id = message.from_user.id
         user = await db.get_user(user_id)
         if not user:
-            logger.info(f"User {message.from_user.username} not registered. ")
+            logger.info(
+                f"User {message.from_user.username} not registered. ",
+                extra={"tags": {"Aki-Bot-Core": "Core"}},
+            )
             await message.answer("You are not registered. Use /start to begin.")
             await message.delete()
             return
@@ -226,7 +270,10 @@ async def help(message: Message):
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error help message button: {e}")
+        logger.error(
+            f"Error help message button: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
 
 
 # 🦊 My sticker pack
@@ -244,7 +291,10 @@ async def bio(message: Message):
             ):
                 await db.set_last_pet_time(user_id, current_time)
                 await db.increment_click_count1(user_id)
-                logger.info(f"User {message.from_user.username} requested stickers.")
+                logger.info(
+                    f"User {message.from_user.username} requested stickers.",
+                    extra={"tags": {"Aki-Bot-Core": "Core"}},
+                )
                 await asyncio.sleep(5)
                 file_path = "/app/content/pic/w-logo_226.jpg"
                 photo = FSInputFile(file_path)
@@ -262,4 +312,7 @@ async def bio(message: Message):
     except Exception as e:
         await message.answer("⚠️ Something went wrong. Try again or contact admin.")
         await message.delete()
-        logger.error(f"Error bio button: {e}")
+        logger.error(
+            f"Error bio button: {e}",
+            extra={"tags": {"Aki-Bot-Core": "Core"}},
+        )
