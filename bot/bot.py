@@ -175,11 +175,13 @@ async def cmd_bulk(message: Message):
                         caption=msg.ADMIN_MESSAGE,
                         parse_mode="MarkdownV2",
                     )
-                    logger.info(f"Sent bulk to {user_id}")
+                    logger.info(
+                        f"Sent bulk msg to {user_id}",
+                        extra={"tags": {"Aki-Bot-Core": "Bulk"}})
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.error(
-                        f"Error bulk: {e}",
+                        f"Error bulk msg: {e}",
                         extra={"tags": {"Aki-Bot-Core": "Bulk"}},
                     )
                     logger.warning(
