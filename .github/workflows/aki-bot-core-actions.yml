@@ -25,10 +25,10 @@ jobs:
           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
-  build_aki_bot_core_image:
-    name: Build Aki-Bot Image
+  build_aki_bot_core:
+    name: Build Aki-Bot
     runs-on: ubuntu-latest
-    needs: gitguardian_scan 
+    needs: gitguardian_scan
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,12 +51,16 @@ jobs:
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
 
-  # deploy_aki_bot_core_image:
-  #   name: Deploy Aki-Bot Image
-  #   runs-on: ubuntu-latest
-  #   needs: build_aki_bot_core_image 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-
-    
+  deploy_aki_bot_core:
+    name: Deploy Aki-Bot Image
+    runs-on: ubuntu-latest
+    needs: build_aki_bot_core
+    steps:
+      - name: SSH to Server and Execute Script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          script: |
+            /opt/aki-bot/aki-bot-core-deploy.sh

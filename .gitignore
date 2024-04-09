@@ -8,3 +8,4 @@ log/
 bup/
 *-venv
 loki_conf.py
+*.sh
