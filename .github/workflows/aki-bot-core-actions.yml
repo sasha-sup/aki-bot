@@ -44,9 +44,9 @@ jobs:
       
       - name: Build and tag Aki-Bot Docker image
         run: |
-          ls
-          #docker build . --file bot/Dockerfile --tag aki-bot-core:stable
-          #docker tag aki-bot-core:stable ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
+          cd bot
+          docker build . --file bot/Dockerfile --tag aki-bot-core:stable
+          docker tag aki-bot-core:stable ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
 
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
