@@ -63,4 +63,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           script: |
-            /opt/aki-bot/aki-bot-core-deploy.sh
+            /bin/bash /opt/aki-bot/aki-bot-core-deploy.sh
