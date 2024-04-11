@@ -25,8 +25,7 @@ def create_content_dirs(path_dict):
     try:
         for dir_path in [
             path_dict["PIC_PATH"],
-            path_dict["VIDEO_PATH"],
-            path_dict["LOG_PATH"],
+            path_dict["VIDEO_PATH"]
         ]:
             if not os.path.exists(dir_path):
                 os.makedirs(dir_path)
@@ -167,7 +166,7 @@ async def cmd_bulk(message: Message):
             users = await db.bulk_user_ids()
             for user_id in users:
                 try:
-                    path = "/app/content/pic/w-logo_546.jpg"
+                    path = "/app/content/pic/w-logo_230.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(
                         user_id,

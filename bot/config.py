@@ -14,7 +14,6 @@ DB_USER = os.getenv("DB_USER")
 DB_PASS = os.getenv("DB_PASS")
 
 path_dict = {
-    "LOG_PATH": "/app/log",
     "PIC_PATH": "/app/content/pic",
     "VIDEO_PATH": "/app/content/video",
 }
