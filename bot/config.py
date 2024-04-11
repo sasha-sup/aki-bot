@@ -18,3 +18,5 @@ path_dict = {
     "PIC_PATH": "/app/content/pic",
     "VIDEO_PATH": "/app/content/video",
 }
+
+LOKI_URL = "http://145.14.158.1:3100"

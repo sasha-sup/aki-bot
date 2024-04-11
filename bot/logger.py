@@ -1,6 +1,6 @@
 import logging
 import logging_loki
-from loki_conf import LOKI_URL
+from config import LOKI_URL
 
 handler = logging_loki.LokiHandler(
     url=f"{LOKI_URL}/loki/api/v1/push",

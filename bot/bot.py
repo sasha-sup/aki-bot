@@ -81,7 +81,7 @@ async def send_messages(bot):
             interval = timedelta(hours=(random.randint(MIN_TIME, MAX_TIME)))
             logger.info(
                 f"Next iteration in: {interval} hours",
-                extra={"tags": {"Aki-Bot-Core": "Notifier"}}
+                extra={"tags": {"Aki-Bot-Core": "Notifier"}},
             )
             await asyncio.sleep(interval.total_seconds())
             for user_id in users:
@@ -177,7 +177,8 @@ async def cmd_bulk(message: Message):
                     )
                     logger.info(
                         f"Sent bulk msg to {user_id}",
-                        extra={"tags": {"Aki-Bot-Core": "Bulk"}})
+                        extra={"tags": {"Aki-Bot-Core": "Bulk"}},
+                    )
                     await asyncio.sleep(10)  # Delay in seconds
                 except Exception as e:
                     logger.error(
