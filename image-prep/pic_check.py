@@ -5,6 +5,8 @@ from PIL import Image
 from logger import logger
 
 
+# https://core.telegram.org/bots/api#sendphoto
+
 def process_image(filename):
     try:
         input_path = os.path.join(config["PIC_DIR"], filename)
@@ -75,12 +77,11 @@ def resize_and_compress_images():
     except Exception as e:
         logger.error(
             f"Error in resize_and_compress_images: {e}",
-            extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+            extra={"tags": {"Aki-Bot-Image-Prep": " Resize-and-Compress-Image"}},
         )
 
 
-if __name__ == "__main__":
-    with open("./pic-config.json", "r") as f:
-        config = json.load(f)
 
-    resize_and_compress_images()
+with open("./pic-config.json", "r") as f:
+    config = json.load(f)
+resize_and_compress_images()

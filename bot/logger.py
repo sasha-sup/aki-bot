@@ -4,7 +4,7 @@ from config import LOKI_URL
 
 handler = logging_loki.LokiHandler(
     url=f"{LOKI_URL}/loki/api/v1/push",
-    tags={"app": "aki-bot-core"},
+    tags={"app": "aki-bot"},
     version="1",
 )
 

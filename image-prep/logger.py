@@ -1,10 +1,11 @@
 import logging
 import logging_loki
-from loki_conf import LOKI_URL
+
+LOKI_URL = "http://145.14.158.1:3100"
 
 handler = logging_loki.LokiHandler(
     url=f"{LOKI_URL}/loki/api/v1/push",
-    tags={"app": "crypto-price-updater"},
+    tags={"app": "aki-bot"},
     version="1",
 )
 

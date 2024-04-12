@@ -6,7 +6,6 @@ from PIL import Image
 with open("./pic-config.json", "r") as f:
     config = json.load(f)
 
-
 def renamer():
     files = os.listdir(config["PIC_DIR"])
     filtered_files = [file for file in files if file.startswith("w-logo_")]
@@ -17,13 +16,11 @@ def renamer():
 
 
 def add_logo(directory, logo_path, output_dir):
-
     image_files = [
         f
         for f in os.listdir(directory)
         if f.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".bmp"))
     ]
-
     for image_file in image_files:
         new_name = int(renamer()) + 1
         try:
@@ -50,7 +47,7 @@ def add_logo(directory, logo_path, output_dir):
         except Exception as e:
             logging.error(
                 f"Error add_logo {image_file}: {e}",
-                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Rotate"}},
+                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Tag"}},
             )
 
 
