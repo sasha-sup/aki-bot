@@ -27,7 +27,7 @@ jobs:
     name: Build Aki-Bot-Core
     runs-on: ubuntu-latest
     needs: gitguardian_scan
-    if: github.event_name == 'push' && github.event.head_commit.modified | contains('bot/')
+    if: github.event_name == 'push' && github.event.head_commit.modified contains['bot/']
     steps:
       - name: Use Docker Build & Push template
         uses: ./.github/actions/docker_build_push
@@ -54,7 +54,7 @@ jobs:
     name: Build Aki-Bot Images
     runs-on: ubuntu-latest
     needs: gitguardian_scan
-    if: github.event_name == 'push' && github.event.head_commit.modified | contains('image-prep/')
+    if: github.event_name == 'push' && github.event.head_commit.modified contains ['image-prep/']
     steps:
       - name: Use Docker Build & Push template
         uses: ./.github/actions/docker_build_push
