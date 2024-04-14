@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
       - name: GitGuardian scan
         uses: GitGuardian/ggshield-action@v1.26.0
         env:
@@ -31,13 +30,11 @@ jobs:
       RUN_JOB_BOT: ${{ steps.check_files.outputs.run_job_bot }}
       RUN_JOB_IMAGE: ${{ steps.check_files.outputs.run_job_image }}
       RUN_JOB_VIDEO: ${{ steps.check_files.outputs.run_job_video }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-
       - name: Check modified files
         id: check_files
         run: |
@@ -64,8 +61,10 @@ jobs:
     needs: [check_files]
     if: ${{ needs.check_files.outputs.RUN_JOB_BOT == 'true' }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Use Docker Build & Push template
-        uses: ./.github/actions/build_and_push
+        uses: ./.github/actions/docker_build_push.yml
         with:
           image_name: aki-bot-core
           image_tag: stable
@@ -90,8 +89,10 @@ jobs:
     needs: [check_files]
     if: ${{ needs.check_files.outputs.RUN_JOB_IMAGE == 'true' }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Use Docker Build & Push template
-        uses: ./.github/actions/docker_build_push
+        uses: ./.github/actions/docker_build_push.yml
         with:
           image_name: aki-bot-images
           image_tag: stable
@@ -116,8 +117,10 @@ jobs:
     needs: [check_files]
     if: ${{ needs.check_files.outputs.RUN_JOB_VIDEO == 'true' }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Use Docker Build & Push template
-        uses: ./.github/actions/docker_build_push
+        uses: ./.github/actions/docker_build_push.yml
         with:
           image_name: aki-bot-video
           image_tag: stable

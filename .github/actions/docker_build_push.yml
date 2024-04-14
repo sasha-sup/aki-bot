@@ -1,18 +1,8 @@
-name: Docker Build & Push
-
-on:
-  push:
-    branches:
-      - master
-
 jobs:
   build_and_push:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Insecure Docker Repository
         run: |
           sudo truncate -s-2 /etc/docker/daemon.json
