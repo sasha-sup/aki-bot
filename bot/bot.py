@@ -19,7 +19,6 @@ from logger import logger
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher()
 
-#
 # Create required directories
 def create_content_dirs(path_dict):
     try:
