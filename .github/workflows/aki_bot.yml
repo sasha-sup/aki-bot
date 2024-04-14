@@ -72,13 +72,10 @@ jobs:
         run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ secrets.REGISTRY_URL }}
       - name: Build and tag Docker image
         run: |
-          docker build . --file Dockerfile --tag ${{ inputs.image_tag }}
-          docker tag ${{ inputs.image_tag }} ${{ secrets.REGISTRY_URL }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
+          docker build . --file bot/Dockerfile --tag aki-bot-core:stable
+          docker tag aki-bot-core:stable ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
       - name: Push Docker image to registry
-        run: docker push ${{ secrets.REGISTRY_URL }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
-        with:
-          image_name: aki-bot-core
-          image_tag: stable
+        run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
 
   deploy_aki_bot_core:
     name: Deploy Aki-Bot-Core
@@ -111,13 +108,10 @@ jobs:
         run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ secrets.REGISTRY_URL }}
       - name: Build and tag Docker image
         run: |
-          docker build . --file Dockerfile --tag ${{ inputs.image_tag }}
-          docker tag ${{ inputs.image_tag }} ${{ secrets.REGISTRY_URL }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
+          docker build . --file bot/Dockerfile --tag aki-bot-image:stable
+          docker tag aki-bot-image:stable ${{ secrets.REGISTRY_URL }}/aki-bot-image:stable
       - name: Push Docker image to registry
-        run: docker push ${{ secrets.REGISTRY_URL }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
-        with:
-          image_name: aki-bot-images
-          image_tag: stable
+        run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-image:stable
 
   deploy_aki_bot_image:
     name: Deploy Aki-Bot-Image
@@ -150,13 +144,10 @@ jobs:
         run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ secrets.REGISTRY_URL }}
       - name: Build and tag Docker image
         run: |
-          docker build . --file Dockerfile --tag ${{ inputs.image_tag }}
-          docker tag ${{ inputs.image_tag }} ${{ secrets.REGISTRY_URL }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
+          docker build . --file bot/Dockerfile --tag aki-bot-video:stable
+          docker tag aki-bot-video:stable ${{ secrets.REGISTRY_URL }}/aki-bot-video:stable
       - name: Push Docker image to registry
-        run: docker push ${{ secrets.REGISTRY_URL }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
-        with:
-          image_name: aki-bot-video
-          image_tag: stable
+        run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-video:stable
 
   deploy_aki_bot_video:
     name: Deploy Aki-Bot-Image
