@@ -166,7 +166,8 @@ async def cmd_bulk(message: Message):
             users = await db.bulk_user_ids()
             for user_id in users:
                 try:
-                    path = "/app/content/pic/w-logo_230.jpg"
+                    path = "/app/content/help/help.jpg"
+                    # path = "/app/content/pic/w-logo_230.jpg"
                     pic = FSInputFile(path)
                     await bot.send_photo(
                         user_id,
