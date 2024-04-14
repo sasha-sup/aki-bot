@@ -75,7 +75,7 @@ jobs:
     name: Build Aki-Bot-Core
     runs-on: ubuntu-latest
     needs: [check_files]
-    if: ${{ needs.check_files.outputs.RUN_JOB_BOT == 'true' }}
+    if: ${{ env.RUN_JOB_BOT == 'true' }}
     steps:
       - name: Use Docker Build & Push template
         uses: ./.github/actions/docker_build_push
@@ -97,11 +97,11 @@ jobs:
           script: |
             /bin/bash /opt/aki-bot/core/aki-bot-core-deploy.sh
 
-  build_aki_bot_images:
+  build_aki_bot_image:
     name: Build Aki-Bot Images
     runs-on: ubuntu-latest
     needs: [check_files]
-    if: ${{ needs.check_files.outputs.RUN_JOB_IMAGE == 'true' }}
+    if: ${{ env.RUN_JOB_IMAGE == 'true' }}
     steps:
       - name: Use Docker Build & Push template
         uses: ./.github/actions/docker_build_push
@@ -109,14 +109,42 @@ jobs:
           image_name: aki-bot-images
           image_tag: stable
 
+  deploy_aki_bot_image:
+    name: Deploy Aki-Bot-Image
+    runs-on: ubuntu-latest
+    needs: [build_aki_bot_image]
+    steps:
+      - name: SSH to Server and Execute Script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          script: |
+            /bin/bash /opt/aki-bot/image/aki-bot-image-deploy.sh
+
   build_aki_bot_video:
     name: Build Aki-Bot Video
     runs-on: ubuntu-latest
     needs: [check_files]
-    if: ${{ needs.check_files.outputs.RUN_JOB_VIDEO == 'true' }}
+    if: ${{ env.RUN_JOB_VIDEO == 'true' }}
     steps:
       - name: Use Docker Build & Push template
         uses: ./.github/actions/docker_build_push
         with:
           image_name: aki-bot-video
           image_tag: stable
+
+  deploy_aki_bot_video:
+    name: Deploy Aki-Bot-Image
+    runs-on: ubuntu-latest
+    needs: [build_aki_bot_video]
+    steps:
+      - name: SSH to Server and Execute Script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          script: |
+            /bin/bash /opt/aki-bot/video/aki-bot-video-deploy.sh
