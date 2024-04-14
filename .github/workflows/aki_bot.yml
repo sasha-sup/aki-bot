@@ -75,7 +75,7 @@ jobs:
     name: Build Aki-Bot-Core
     runs-on: ubuntu-latest
     needs: [check_files]
-    if: ${{ env.RUN_JOB_BOT == 'true' }}
+    if: ${{ RUN_JOB_BOT == 'true' }}
     steps:
       - name: Use Docker Build & Push template
         uses: ./.github/actions/docker_build_push
