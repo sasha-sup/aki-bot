@@ -64,7 +64,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Use Docker Build & Push template
-        uses: ./.github/actions/build_and_push
+        uses: ./actions/build_and_push
         with:
           image_name: aki-bot-core
           image_tag: stable
