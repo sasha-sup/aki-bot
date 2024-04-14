@@ -23,10 +23,7 @@ dp = Dispatcher()
 # Create required directories
 def create_content_dirs(path_dict):
     try:
-        for dir_path in [
-            path_dict["PIC_PATH"],
-            path_dict["VIDEO_PATH"]
-        ]:
+        for dir_path in [path_dict["PIC_PATH"], path_dict["VIDEO_PATH"]]:
             if not os.path.exists(dir_path):
                 os.makedirs(dir_path)
                 logger.info(

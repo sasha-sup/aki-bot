@@ -6,6 +6,7 @@ from PIL import Image
 with open("./pic-config.json", "r") as f:
     config = json.load(f)
 
+
 def renamer():
     files = os.listdir(config["PIC_DIR"])
     filtered_files = [file for file in files if file.startswith("w-logo_")]
