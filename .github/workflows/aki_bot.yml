@@ -65,7 +65,7 @@ jobs:
     if: ${{ needs.check_files.outputs.RUN_JOB_BOT == 'true' }}
     steps:
       - name: Use Docker Build & Push template
-        uses: ./.github/actions/docker_build_push.yml
+        uses: ./.github/actions/build_and_push
         with:
           image_name: aki-bot-core
           image_tag: stable
