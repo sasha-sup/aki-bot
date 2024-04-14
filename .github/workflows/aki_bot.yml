@@ -48,19 +48,15 @@ jobs:
             echo $file
             if [[ $file == bot/* ]]; then
               echo "This modified file is under the 'bot' folder."
-              run_job_bot=true
+              echo "run_job_bot=true" >> "$GITHUB_OUTPUT"
             elif [[ $file == image/* ]]; then
               echo "This modified file is under the 'image' folder."
-              run_job_image=true
+              echo "run_job_image=true" >> "$GITHUB_OUTPUT"
             elif [[ $file == video/* ]]; then
               echo "This modified file is under the 'video' folder."
-              run_job_video=true
+              echo "run_job_video=true" >> "$GITHUB_OUTPUT"
             fi
           done < files.txt
-
-          echo "RUN_JOB_BOT=run_job_bot" >> "$GITHUB_OUTPUT"
-          echo "RUN_JOB_IMAGE=run_job_image" >> "$GITHUB_OUTPUT"
-          echo "RUN_JOB_VIDEO=run_job_video" >> "$GITHUB_OUTPUT"
 
   build_aki_bot_core:
     name: Build Aki-Bot-Core
