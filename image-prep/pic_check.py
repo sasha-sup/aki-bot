@@ -21,11 +21,11 @@ def process_image(filename):
                 if os.path.getsize(input_path) / (1024 * 1024) > config["max_size"]:
                     logger.error(
                         f"Size of {input_path} > {config['max_size']} MB",
-                        extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
                     )
                     raise Exception(
                         f"Size of {input_path} > {config['max_size']} MB",
-                        extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
                     )
 
                 if (
@@ -34,21 +34,21 @@ def process_image(filename):
                 ):
                     logger.error(
                         f"Aspect ratio of {input_path} exceeds {config['max_ratio']}",
-                        extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
                     )
                     raise Exception(
                         f"Aspect ratio of {input_path} exceeds {config['max_ratio']}",
-                        extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
                     )
 
                 if width + height > config["max_dimensions"]:
                     logger.error(
                         f"Dimensions of {input_path} exceed {config['max_dimensions']}",
-                        extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
                     )
                     raise Exception(
                         f"Dimensions of {input_path} exceed {config['max_dimensions']}",
-                        extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
                     )
 
                     new_width = int(width * (config["width_percent"] / 100))
@@ -58,13 +58,13 @@ def process_image(filename):
 
             logger.info(
                 f"Image {filename} processed successfully.",
-                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+                extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
             )
 
     except Exception as e:
         logger.error(
             f"Error processing {filename}: {e}",
-            extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+            extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
         )
 
 
@@ -77,7 +77,7 @@ def resize_and_compress_images():
     except Exception as e:
         logger.error(
             f"Error in resize_and_compress_images: {e}",
-            extra={"tags": {"Aki-Bot-Image-Prep": " Resize-and-Compress-Image"}},
+            extra={"tags": {"Aki-Bot-Image": " Resize-and-Compress-Image"}},
         )
 
 

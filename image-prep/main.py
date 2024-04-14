@@ -8,18 +8,18 @@ def main():
         resize_and_compress_images()
         logger.info(
             "Resize and compress job complete",
-            extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+            extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
         )
         add_logo()
         logger.info(
             "Add logo job complete",
-            extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Check"}},
+            extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
         )
 
     except Exception as e:
         logger.error(
             f"Error in main function: {e}",
-            extra={"tags": {"Aki-Bot-Image-Prep": "Resizer"}},
+            extra={"tags": {"Aki-Bot-Image": "Resizer"}},
         )
 
 

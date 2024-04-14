@@ -42,12 +42,12 @@ def add_logo(directory, logo_path, output_dir):
             os.remove(image_path)
             logging.info(
                 f"Image: {image_file}, New name: {output_filename}, Moved to: {output_path}",
-                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Tag"}},
+                extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
             )
         except Exception as e:
             logging.error(
                 f"Error add_logo {image_file}: {e}",
-                extra={"tags": {"Aki-Bot-Image-Prep": "Pick-Tag"}},
+                extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
             )
 
 
