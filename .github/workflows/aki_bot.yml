@@ -64,6 +64,7 @@ jobs:
           echo "RUN_JOB_BOT=$run_job_bot" >> $GITHUB_ENV
           echo "RUN_JOB_IMAGE=$run_job_image" >> $GITHUB_ENV
           echo "RUN_JOB_VIDEO=$run_job_video" >> $GITHUB_ENV
+          echo $GITHUB_ENV
 
   build_aki_bot_core:
     name: Build Aki-Bot-Core
