@@ -21,7 +21,6 @@ def main():
             f"Error in main function: {e}",
             extra={"tags": {"Aki-Bot-Image": "Resizer"}},
         )
-#
 
 if __name__ == "__main__":
     main()

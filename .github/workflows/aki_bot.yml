@@ -73,7 +73,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
           cd bot
-          docker build . Dockerfile --tag aki-bot-core:stable
+          docker build -f Dockerfile -t aki-bot-core:stable .
           docker tag aki-bot-core:stable ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-core:stable
@@ -110,7 +110,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
           cd image
-          docker build . --tag aki-bot-image:stable
+          docker build -f Dockerfile -t aki-bot-image:stable .
           docker tag aki-bot-image:stable ${{ secrets.REGISTRY_URL }}/aki-bot-image:stable
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-image:stable
@@ -147,7 +147,7 @@ jobs:
       - name: Build and tag Docker image
         run: |
           cd video
-          docker build . Dockerfile --tag aki-bot-video:stable
+          docker build -f Dockerfile -t aki-bot-video:stable .
           docker tag aki-bot-video:stable ${{ secrets.REGISTRY_URL }}/aki-bot-video:stable
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-video:stable
