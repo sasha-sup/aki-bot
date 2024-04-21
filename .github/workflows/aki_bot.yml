@@ -115,39 +115,25 @@ jobs:
       - name: Push Docker image to registry
         run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-image:stable
 
-  build_aki_bot_video:
-    name: Build Aki-Bot Video
+  deploy_aki_bot_video:
+    name: Deploy Aki-Bot Video
     runs-on: ubuntu-latest
     needs: [check_files]
     if: ${{ needs.check_files.outputs.RUN_JOB_VIDEO == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Insecure Docker Repository
+      - name: test
         run: |
-          sudo truncate -s-2 /etc/docker/daemon.json
-          echo ", \"insecure-registries\": [\"${{ secrets.REGISTRY_URL }}\"]}" | sudo tee -a /etc/docker/daemon.json
-          sudo systemctl restart docker
-      - name: Login to Docker registry
-        run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin ${{ secrets.REGISTRY_URL }}
-      - name: Build and tag Docker image
-        run: |
-          cd video
-          docker build -f Dockerfile -t aki-bot-video:stable .
-          docker tag aki-bot-video:stable ${{ secrets.REGISTRY_URL }}/aki-bot-video:stable
-      - name: Push Docker image to registry
-        run: docker push ${{ secrets.REGISTRY_URL }}/aki-bot-video:stable
+          pwd
+          echo "----"
+          realpath $(ls)
 
-  deploy_aki_bot_video:
-    name: Deploy Aki-Bot-Image
-    runs-on: ubuntu-latest
-    needs: [build_aki_bot_video]
-    steps:
-      - name: SSH to Server and Execute Script
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_DEPLOY_KEY }}
-          script: |
-            /bin/bash /opt/aki-bot/video/aki-bot-video-deploy.sh
+      # - name: SCP files to remote host
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_DEPLOY_KEY }}
+      #     source: "/*"
+      #     target: "/remote/path/to/upload"
