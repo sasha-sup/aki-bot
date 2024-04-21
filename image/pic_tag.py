@@ -1,11 +1,11 @@
 import os
+import json
 import random
 from logger import logger
 from PIL import Image
 
 with open("./pic-config.json", "r") as f:
     config = json.load(f)
-
 
 def renamer():
     files = os.listdir(config["PIC_DIR"])
@@ -50,6 +50,3 @@ def add_logo(directory, logo_path, output_dir):
                 f"Error add_logo {image_file}: {e}",
                 extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
             )
-
-
-add_logo(config["NEW_PIC_DIR"], config["LOGO_PATH"], config["PIC_DIR"])

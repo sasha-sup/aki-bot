@@ -1,12 +1,14 @@
 import os
 import json
-from multiprocessing import Pool
 from PIL import Image
 from logger import logger
 
 
 # https://core.telegram.org/bots/api#sendphoto
 
+
+with open("./pic-config.json", "r") as f:
+    config = json.load(f)
 
 def process_image(filename):
     try:
@@ -72,16 +74,11 @@ def process_image(filename):
 def resize_and_compress_images():
     try:
         filenames = os.listdir(config["PIC_DIR"])
-        with Pool() as pool:
-            pool.map(process_image, filenames)
+        for filename in filenames:
+            process_image(filename)
 
     except Exception as e:
         logger.error(
             f"Error in resize_and_compress_images: {e}",
             extra={"tags": {"Aki-Bot-Image": " Resize-and-Compress-Image"}},
         )
-
-
-with open("./pic-config.json", "r") as f:
-    config = json.load(f)
-resize_and_compress_images()
