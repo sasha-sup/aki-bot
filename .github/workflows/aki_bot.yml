@@ -130,7 +130,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           source: "./video/video_*.sh"
-          target: "/opt/aki-bot/video/"
+          target: "/opt/aki-bot"
       - name: SSH to Server and chmod scripts
         uses: appleboy/ssh-action@master
         with:
