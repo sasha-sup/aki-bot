@@ -31,7 +31,8 @@ remove_duplicate_log_entries() {
     awk '!seen[$0]++' "$LOG_FILE" > "$LOG_FILE.tmp" && mv "$LOG_FILE.tmp" "$LOG_FILE"
 }
 
-exceeded_files=""
+
+message="🦊 Aki Bot bad size videos:"
 
 for video_file in "$INPUT_DIR"/*; do
     if [ ! -f "$video_file" ]; then
@@ -41,15 +42,11 @@ for video_file in "$INPUT_DIR"/*; do
     current_size=$(stat --format=%s "$video_file")
     file_size_mb=$((current_size / 1024 / 1024)) # in megabytes
     if [ "$current_size" -gt "$MAX_FILE_SIZE" ]; then
-        message="🦊 Aki Bot bad size videos:"
-        message+="🎞️ $file_name: $file_size_mb MB\n"
+        message="$message
+📦 $file_size_mb MB 🎞 $file_name:"
         log_message "$message"
-        exceeded_files+="$file_name"
     fi
 done
 
-if [ -n "$exceeded_files" ]; then
-    send_telegram_message "$message"
-fi
-
+send_telegram_message "$message"
 remove_duplicate_log_entries
