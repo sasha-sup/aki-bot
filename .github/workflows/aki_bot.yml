@@ -130,4 +130,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           source: "./video/video_*.sh"
-          target: "/opt/aki-bot/video"
+          target: "/opt/aki-bot/video/"
+      - name: Make scripts executable
+        run: |
+          chmod +x /opt/aki-bot/video/video_*.sh
