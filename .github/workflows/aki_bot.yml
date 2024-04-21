@@ -131,6 +131,11 @@ jobs:
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           source: "./video/video_*.sh"
           target: "/opt/aki-bot/video/"
-      - name: Make scripts executable
-        run: |
-          chmod +x /opt/aki-bot/video/video_*.sh
+      - name: SSH to Server and chmod scripts
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          script: |
+            chmod +x /opt/aki-bot/video/video_*.sh
