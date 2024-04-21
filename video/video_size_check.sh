@@ -41,13 +41,15 @@ for video_file in "$INPUT_DIR"/*; do
     current_size=$(stat --format=%s "$video_file")
     file_size_mb=$((current_size / 1024 / 1024)) # in megabytes
     if [ "$current_size" -gt "$MAX_FILE_SIZE" ]; then
-        message="
-🦊 Aki Bot bad size videos:
-🎞️$file_name: $file_size_mb MB
-"
+        message="🦊 Aki Bot bad size videos:"
+        message+="🎞️ $file_name: $file_size_mb MB\n"
         log_message "$message"
-        send_telegram_message "$message"
+        exceeded_files+="$file_name"
     fi
 done
+
+if [ -n "$exceeded_files" ]; then
+    send_telegram_message "$message"
+fi
 
 remove_duplicate_log_entries
