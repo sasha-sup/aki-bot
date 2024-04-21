@@ -4,7 +4,7 @@
     "max_ratio": 20,
     "width_percent": 40,
     "height_percent": 40,
-    "PIC_DIR": "/root/Yandex.Disk/content/pic",
-    "NEW_PIC_DIR": "/root/Yandex.Disk/content/unsorted",
-    "LOGO_PATH": "/root/Yandex.Disk/content/logo/akibot-logo1.png"
+    "PIC_DIR": "/app/content/pic",
+    "NEW_PIC_DIR": "/app/content/unsorted",
+    "LOGO_PATH": "/app/content/logo/akibot-logo1.png"
 }
