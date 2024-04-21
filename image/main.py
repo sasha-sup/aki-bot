@@ -2,6 +2,7 @@ from logger import logger
 import json
 from pic_check import resize_and_compress_images
 from pic_tag import add_logo
+import sys
 
 
 def log_step(step_name):
@@ -9,6 +10,7 @@ def log_step(step_name):
         f"Starting {step_name} job",
         extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
     )
+
 
 def main():
     try:
@@ -28,6 +30,9 @@ def main():
             f"Error in main function: {e}",
             extra={"tags": {"Aki-Bot-Image": "Resizer"}},
         )
+    finally:
+        sys.exit()
+
 
 if __name__ == "__main__":
     main()

@@ -10,6 +10,7 @@ from logger import logger
 with open("./pic-config.json", "r") as f:
     config = json.load(f)
 
+
 def process_image(filename):
     try:
         input_path = os.path.join(config["PIC_DIR"], filename)

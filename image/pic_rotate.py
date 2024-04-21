@@ -33,12 +33,10 @@ def rotate(directory):
                 )
     except Exception as e:
         logger.error(
-            f"Error in image rotate --> creating directory or listing image files: {e}",
+            f"Error in image rotate: {e}",
             extra={"tags": {"Aki-Bot-Image": "Pick-Rotate"}},
         )
 
 
 with open("./pic-config.json", "r") as f:
     config = json.load(f)
-
-rotate(config["PIC_DIR"])
