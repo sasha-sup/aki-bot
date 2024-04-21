@@ -123,17 +123,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: test
-        run: |
-          pwd
-          echo "----"
-          realpath $(ls)
-
-      # - name: SCP files to remote host
-      #   uses: appleboy/scp-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_DEPLOY_KEY }}
-      #     source: "/*"
-      #     target: "/remote/path/to/upload"
+      - name: SCP files to remote host
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          source: "./video/video_*.sh"
+          target: "/opt/aki-bot/video"
