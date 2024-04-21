@@ -41,12 +41,12 @@ def add_logo(directory, logo_path, output_dir):
             image = image.convert("RGB")
             image.save(output_path, "JPEG")
             os.remove(image_path)
-            logging.info(
+            logger.info(
                 f"Image: {image_file}, New name: {output_filename}, Moved to: {output_path}",
                 extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
             )
         except Exception as e:
-            logging.error(
+            logger.error(
                 f"Error add_logo {image_file}: {e}",
                 extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
             )
