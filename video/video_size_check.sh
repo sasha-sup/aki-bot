@@ -43,7 +43,10 @@ for video_file in "$INPUT_DIR"/*; do
     file_size_mb=$((current_size / 1024 / 1024)) # in megabytes
     if [ "$current_size" -gt "$MAX_FILE_SIZE" ]; then
         message="$message
-📦 $file_size_mb MB 🎞 $file_name:"
+🎞 $file_name
+📦 $file_size_mb MB 
+---
+"
         log_message "$message"
     fi
 done
