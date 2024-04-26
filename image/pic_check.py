@@ -60,11 +60,6 @@ def process_image(filename):
                     resized_img = img.resize((new_width, new_height))
                     resized_img.save(output_path)
 
-            logger.info(
-                f"Image {filename} processed successfully.",
-                extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-            )
-
     except Exception as e:
         logger.error(
             f"Error processing {filename}: {e}",
