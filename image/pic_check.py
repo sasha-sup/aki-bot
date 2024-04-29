@@ -11,49 +11,51 @@ with open("./pic-config.json", "r") as f:
     config = json.load(f)
 
 
-def process_image(filename):
+def resize_and_compress_images():
     try:
-        input_path = os.path.join(config["PIC_DIR"], filename)
-        output_path = os.path.join(config["PIC_DIR"], filename)
+        filenames = os.listdir(config["PIC_DIR"])
+        for filename in filenames:
+            input_path = os.path.join(config["PIC_DIR"], filename)
+            output_path = os.path.join(config["PIC_DIR"], filename)
 
-        if os.path.isfile(input_path) and any(
-            input_path.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png"]
-        ):
-            with Image.open(input_path) as img:
-                width, height = img.size
+            if os.path.isfile(input_path) and any(
+                input_path.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png"]
+            ):
+                with Image.open(input_path) as img:
+                    width, height = img.size
 
-                if os.path.getsize(input_path) / (1024 * 1024) > config["max_size"]:
-                    logger.error(
-                        f"Size of {input_path} > {config['max_size']} MB",
-                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-                    )
-                    raise Exception(
-                        f"Size of {input_path} > {config['max_size']} MB",
-                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-                    )
+                    if os.path.getsize(input_path) / (1024 * 1024) > config["max_size"]:
+                        logger.error(
+                            f"Size of {input_path} > {config['max_size']} MB",
+                            extra={"tags": {"Aki-Bot-Image": "Get-Size"}},
+                        )
+                        raise Exception(
+                            f"Size of {input_path} > {config['max_size']} MB",
+                            extra={"tags": {"Aki-Bot-Image": "Get-Size"}},
+                        )
 
-                if (
-                    width / height > config["max_ratio"]
-                    or height / width > config["max_ratio"]
-                ):
-                    logger.error(
-                        f"Aspect ratio of {input_path} exceeds {config['max_ratio']}",
-                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-                    )
-                    raise Exception(
-                        f"Aspect ratio of {input_path} exceeds {config['max_ratio']}",
-                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-                    )
+                    if (
+                        width / height > config["max_ratio"]
+                        or height / width > config["max_ratio"]
+                    ):
+                        logger.error(
+                            f"Aspect ratio of {input_path} exceeds {config['max_ratio']}",
+                            extra={"tags": {"Aki-Bot-Image": "Max-Ratio"}},
+                        )
+                        raise Exception(
+                            f"Aspect ratio of {input_path} exceeds {config['max_ratio']}",
+                            extra={"tags": {"Aki-Bot-Image": "Max-Ratio"}},
+                        )
 
-                if width + height > config["max_dimensions"]:
-                    logger.error(
-                        f"Dimensions of {input_path} exceed {config['max_dimensions']}",
-                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-                    )
-                    raise Exception(
-                        f"Dimensions of {input_path} exceed {config['max_dimensions']}",
-                        extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
-                    )
+                    if width + height > config["max_dimensions"]:
+                        logger.error(
+                            f"Dimensions of {input_path} exceed {config['max_dimensions']}",
+                            extra={"tags": {"Aki-Bot-Image": "Max-Dimensions"}},
+                        )
+                        raise Exception(
+                            f"Dimensions of {input_path} exceed {config['max_dimensions']}",
+                            extra={"tags": {"Aki-Bot-Image": "Max-Dimensions"}},
+                        )
 
                     new_width = int(width * (config["width_percent"] / 100))
                     new_height = int(height * (config["height_percent"] / 100))
@@ -62,19 +64,20 @@ def process_image(filename):
 
     except Exception as e:
         logger.error(
-            f"Error processing {filename}: {e}",
-            extra={"tags": {"Aki-Bot-Image": "Pick-Check"}},
+            f"Ну тут явно дерьом какое-то с пик-чеком: {e}",
+            extra={"tags": {"Aki-Bot-Image": "PIZDEC"}},
         )
 
 
-def resize_and_compress_images():
+
+def count_objects_in_directory():
     try:
         filenames = os.listdir(config["PIC_DIR"])
-        for filename in filenames:
-            process_image(filename)
-
+        return len(filenames)
     except Exception as e:
         logger.error(
-            f"Error in resize_and_compress_images: {e}",
-            extra={"tags": {"Aki-Bot-Image": " Resize-and-Compress-Image"}},
+            f"Error counting objects in directory {directory}: {e}",
+            extra={"tags": {"Aki-Bot-Image": "Count-Objects"}},
         )
+        return None
+
