@@ -18,7 +18,7 @@ async def create_db_connection():
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error connecting to DB: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Connection"}},
         )
         raise e
 
@@ -45,7 +45,7 @@ async def create_tables_if_exists():
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error creating table: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Create_tables"}},
         )
         raise e
     finally:
@@ -62,17 +62,17 @@ async def ensure_user_exists(user_id, username):
             await connection.execute(insert_query, user_id, username)
             logger.info(
                 f"Added new user with user_id {user_id}, username {username}",
-                extra={"tags": {"Aki-Bot-Core": "DB"}},
+                extra={"tags": {"Aki-Bot-DB": "User_check"}},
             )
     except asyncpg.UniqueViolationError:
         logger.warning(
             f"User with user_id {user_id} already exists.",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "User_check"}},
         )
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error adding user: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "User_check"}},
         )
     finally:
         await connection.close()
@@ -87,7 +87,7 @@ async def get_user(user_id):
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error get user: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Get_user"}},
         )
     finally:
         await connection.close()
@@ -103,7 +103,7 @@ async def get_all_user_ids():
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error get all user: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Get_user_ids"}},
         )
     finally:
         await connection.close()
@@ -119,7 +119,7 @@ async def bulk_user_ids():
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error get bulk user: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Bulk_users"}},
         )
     finally:
         await connection.close()
@@ -133,7 +133,7 @@ async def update_notification_settings(user_id, send_notifications):
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error updating notification settings: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "User_notify"}},
         )
     finally:
         await connection.close()
@@ -148,7 +148,7 @@ async def increment_click_count(user_id):
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error incrementing click count: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Pet_clicks"}},
         )
     finally:
         await connection.close()
@@ -163,7 +163,7 @@ async def increment_click_count1(user_id):
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error incrementing click count: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Bio_clicks"}},
         )
     finally:
         await connection.close()
@@ -177,7 +177,41 @@ async def set_last_pet_time(user_id, current_time):
     except asyncpg.PostgresError as e:
         logger.error(
             f"Error setting last pet time: {e}",
-            extra={"tags": {"Aki-Bot-Core": "DB"}},
+            extra={"tags": {"Aki-Bot-DB": "Last_pet_time"}},
         )
+    finally:
+        await connection.close()
+
+
+async def user_count():
+    try:
+        connection = await create_db_connection()
+        query = "SELECT COUNT(*) FROM users"
+        result = await connection.fetch(query)
+        return result
+    except asyncpg.PostgresError as e:
+        logger.error(
+            f"Error user counr: {e}",
+            extra={"tags": {"Aki-Bot-DB": "User_count"}},
+        )
+    finally:
+        await connection.close()
+
+async def getallusers():
+    try:
+        connection = await create_db_connection()
+        query = "SELECT id, username FROM users ORDER BY id"
+        result = await connection.fetch(query)
+        user_list = []
+        for row in result:
+            id, username = row
+            user_list.append({"id": id, "username": username})
+        return user_list
+    except asyncpg.PostgresError as e:
+        logger.error(
+            f"Error get all users: {e}",
+            extra={"tags": {"Aki-Bot-DB": "Get_all_users"}},
+        )
+        return None
     finally:
         await connection.close()

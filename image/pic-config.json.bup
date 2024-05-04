@@ -1,0 +1,10 @@
+{
+    "max_size": 10,
+    "max_dimensions": 10000,
+    "max_ratio": 20,
+    "width_percent": 40,
+    "height_percent": 40,
+    "PIC_DIR": "/app/content/pic",
+    "NEW_PIC_DIR": "/app/content/unsorted",
+    "LOGO_PATH": "/app/content/logo/akibot-logo1.png"
+}

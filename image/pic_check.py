@@ -57,10 +57,10 @@ def resize_and_compress_images():
                             extra={"tags": {"Aki-Bot-Image": "Max-Dimensions"}},
                         )
 
-                    new_width = int(width * (config["width_percent"] / 100))
-                    new_height = int(height * (config["height_percent"] / 100))
-                    resized_img = img.resize((new_width, new_height))
-                    resized_img.save(output_path)
+#                    new_width = int(width * (config["width_percent"] / 100))
+#                    new_height = int(height * (config["height_percent"] / 100))
+#                    resized_img = img.resize((new_width, new_height))
+#                    resized_img.save(output_path)
 
     except Exception as e:
         logger.error(

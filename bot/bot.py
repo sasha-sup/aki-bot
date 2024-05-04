@@ -100,9 +100,9 @@ async def send_messages(bot):
                     )
                     logger.warning(
                         f"User {user_id} blocked the bot? Skipping.",
-                        extra={"tags": {"Aki-Bot-Core": "Notifier"}},
+                        extra={"tags": {"Aki-Bot-Core": "Blocked?"}},
                     )
-                await asyncio.sleep(10)  # delay in seconds
+                await asyncio.sleep(10) # delay in seconds
     except Exception as e:
         await bot.reply("⚠️ Something went wrong. Try again or contact admin.")
         logger.error(
