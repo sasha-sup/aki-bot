@@ -197,6 +197,7 @@ async def user_count():
     finally:
         await connection.close()
 
+
 async def getallusers():
     try:
         connection = await create_db_connection()

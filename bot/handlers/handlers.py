@@ -190,7 +190,7 @@ async def pet_me(message: Message):
                     msg.DONAT, parse_mode="MarkdownV2", reply_markup=main_kb()
                 )
                 await message.delete()
-                await asyncio.sleep(10) # delay in seconds
+                await asyncio.sleep(10)  # delay in seconds
             else:
                 await message.answer("Please wait before requesting more content.")
                 await message.delete()
@@ -341,7 +341,12 @@ async def cmd_getallusers(message: Message):
             users = await db.getallusers()
             if users is not None:
                 if len(users) > 0:
-                    users_info = "\n\n".join([f"ID: {user['id']}\nName: {user['username']}" for user in users])
+                    users_info = "\n\n".join(
+                        [
+                            f"ID: {user['id']}\nName: {user['username']}"
+                            for user in users
+                        ]
+                    )
                     await message.answer(f"All Users:\n{users_info}")
                 else:
                     await message.answer("There are no users.")
