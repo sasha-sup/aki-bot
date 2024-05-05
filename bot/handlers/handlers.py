@@ -341,7 +341,7 @@ async def cmd_getallusers(message: Message):
             users = await db.getallusers()
             users_info = "\n\n".join(
                 [
-                    f"🆔: {user['id']}\n👤: {user['username']}"
+                    f"🆔: {user['id']}\n👤: @{user['username']}"
                     for user in users
                 ]
             )
@@ -351,6 +351,5 @@ async def cmd_getallusers(message: Message):
                 f"Error getting all users: {e}",
                 extra={"tags": {"Aki-Bot-Core": "Get_all_users"}},
             )
-        await message.answer("An error occurred while fetching users.")
     else:
         await message.answer("What's wrong with u?")
