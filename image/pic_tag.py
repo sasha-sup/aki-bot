@@ -9,7 +9,7 @@ with open("./pic-config.json", "r") as f:
 
 
 def renamer():
-    files = os.listdir(config["PIC_DIR"])
+    files = os.listdir(config["BASE_PIC_DIR"])
     filtered_files = [file for file in files if file.startswith("w-logo_")]
     if not filtered_files:
         return 0
@@ -17,10 +17,10 @@ def renamer():
     return max_number
 
 
-def add_logo(directory, logo_path, output_dir):
+def add_logo():
     image_files = [
         f
-        for f in os.listdir(directory)
+        for f in os.listdir(config["NEW_PIC_DIR"])
         if f.lower().endswith((".jpg", ".jpeg", ".png", ".gif", ".bmp"))
     ]
     for image_file in image_files:
@@ -28,11 +28,11 @@ def add_logo(directory, logo_path, output_dir):
         try:
             if image_file.startswith("w-logo_"):
                 continue
-            image_path = os.path.join(directory, image_file)
+            image_path = os.path.join(config["NEW_PIC_DIR"], image_file)
             output_filename = f"w-logo_{new_name}.jpg"
-            output_path = os.path.join(output_dir, output_filename)
+            output_path = os.path.join(config["BASE_PIC_DIR"], output_filename)
             image = Image.open(image_path).convert("RGBA")
-            logo = Image.open(logo_path).convert("RGBA")
+            logo = Image.open(config["LOGO_PATH"]).convert("RGBA")
             logo = logo.resize((100, 100))
             img_width, img_height = image.size
             logo_width, logo_height = logo.size
@@ -44,10 +44,10 @@ def add_logo(directory, logo_path, output_dir):
             os.remove(image_path)
             logger.info(
                 f"Image: {image_file}, New name: {output_filename}, Moved to: {output_path}",
-                extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
+                extra={"tags": {"Aki-Bot-Image": "pick-tag"}},
             )
         except Exception as e:
             logger.error(
                 f"Error add_logo {image_file}: {e}",
-                extra={"tags": {"Aki-Bot-Image": "Pick-Tag"}},
+                extra={"tags": {"Aki-Bot-Image": "pick-tag"}},
             )
