@@ -337,23 +337,6 @@ async def cmd_usercount(message: Message):
 async def cmd_getallusers(message: Message):
     user_id = message.from_user.id
     if user_id == int(config.ADMIN_ID):
-        count = await db.getallusers()
-        try:
-
-        except Exception as e:
-            logger.error(
-                f"Error user count: {e}",
-                extra={"tags": {"Aki-Bot-Core": "Get_all_users"}},
-            )
-    else:
-        await message.answer("What's wrong with u?")
-
-
-# /getallusers
-@router.message(Command("getallusers"))
-async def cmd_getallusers(message: Message):
-    user_id = message.from_user.id
-    if user_id == int(config.ADMIN_ID):
         try:
             users = await db.getallusers()
             if users is not None:
