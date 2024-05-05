@@ -187,7 +187,7 @@ async def user_count():
     try:
         connection = await create_db_connection()
         query = "SELECT COUNT(*) FROM users"
-        result = await connection.fetch(query)
+        result = await connection.fetchval(query)
         return result
     except asyncpg.PostgresError as e:
         logger.error(

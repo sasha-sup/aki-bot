@@ -322,7 +322,7 @@ async def cmd_usercount(message: Message):
         count = await db.user_count()
         try:
             if count is not None:
-                await message.answer(f"total users: {count}")
+                await message.answer(f"Total users: {count}")
         except Exception as e:
             logger.error(
                 f"Error user count: {e}",
@@ -339,19 +339,13 @@ async def cmd_getallusers(message: Message):
     if user_id == int(config.ADMIN_ID):
         try:
             users = await db.getallusers()
-            if users is not None:
-                if len(users) > 0:
-                    users_info = "\n\n".join(
-                        [
-                            f"ID: {user['id']}\nName: {user['username']}"
-                            for user in users
-                        ]
-                    )
-                    await message.answer(f"All Users:\n{users_info}")
-                else:
-                    await message.answer("There are no users.")
-            else:
-                await message.answer("Failed to fetch users.")
+            users_info = "\n\n".join(
+                [
+                    f"🆔: {user['id']}\n👤: {user['username']}"
+                    for user in users
+                ]
+            )
+            await message.answer(f"\n{users_info}")
         except Exception as e:
             logger.error(
                 f"Error getting all users: {e}",
