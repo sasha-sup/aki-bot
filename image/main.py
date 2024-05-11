@@ -1,6 +1,6 @@
 from logger import logger
 import json
-from pic_check import resize_and_compress_images
+from pic_check import check_images
 from pic_tag import add_logo
 import sys
 
