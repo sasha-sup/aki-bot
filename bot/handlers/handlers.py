@@ -323,6 +323,7 @@ async def cmd_usercount(message: Message):
         try:
             if count is not None:
                 await message.answer(f"Total users: {count}")
+                await message.delete()
         except Exception as e:
             logger.error(
                 f"Error user count: {e}",
@@ -330,6 +331,7 @@ async def cmd_usercount(message: Message):
             )
     else:
         await message.answer("What's wrong with u?")
+        await message.delete()
 
 
 # /getallusers
@@ -340,12 +342,10 @@ async def cmd_getallusers(message: Message):
         try:
             users = await db.getallusers()
             users_info = "\n\n".join(
-                [
-                    f"🆔: {user['id']}\n👤: @{user['username']}"
-                    for user in users
-                ]
+                [f"🆔: {user['id']}\n👤: @{user['username']}" for user in users]
             )
             await message.answer(f"\n{users_info}")
+            await message.delete()
         except Exception as e:
             logger.error(
                 f"Error getting all users: {e}",
@@ -353,3 +353,4 @@ async def cmd_getallusers(message: Message):
             )
     else:
         await message.answer("What's wrong with u?")
+        await message.delete()
